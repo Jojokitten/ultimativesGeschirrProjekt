@@ -40,13 +40,21 @@ img.rightElementsGenshin {
   color: #f0e8ed;
   animation: glow 1s ease-in-out infinite alternate, blinkingCursor 0.7s step-end infinite;}
 .typewriter-animation {
-  animation: 
-    typewriter 6s steps(50) 1s 1 normal both, 
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  box-sizing: content-box;
+  border-right: 9px solid rgba(148,27,102,0.468);
+  animation:
+    typewriter 6s steps(50) 1s 1 normal both,
     blinkingCursor 0.7s step-end infinite,
-    glow 1s ease-in-out infinite alternate;}
+    glow 1s ease-in-out infinite alternate;
+}
+
 @keyframes typewriter {
   from { width: 0; }
-  to { width: 100%; }}
+  to { width: 22ch; }}
 @keyframes glow {
   from {
     text-shadow:
@@ -66,7 +74,7 @@ img.rightElementsGenshin {
   50% { border-color: rgba(148, 27, 102, 0.8); }}
 
   /*yae*/
-  img.yaemikoBanner {
+img.yaemikoBanner {
 position: absolute;
 top: 600px;
 height: 630px;
@@ -115,7 +123,7 @@ button.getMore {
     background-size: 900px 300px;   
     background-repeat: no-repeat;
     z-index: 17; }
-button.tenPulls {
+button.firstTenPullStyle {
 position: absolute;
     top: 1150px;    
     left: 820px;  
@@ -138,26 +146,25 @@ position: absolute;
     height: 60px;
     width: 60px;     
     background-image: url('images/interwined.webp');
-    background-size: cover;}
+    background-size: cover;
+z-index:20;}
 @keyframes freePullDrop{
     from{top: 880px; left: 690px; width: 60px; height: 60px; display: block;}
-    to{top: 1140px; left: 190px; width: 110px; height: 110px; display: none; border:#e599bce8;}}
+    to{top: 1150px; left: 220px; width: 90px; height: 90px; display: none; border:#e599bce8;}}
 
 /*tartaglia*/
 .cursorTartaglia {
   position: relative;
-  top: 1100px;   
-  left: 16%; 
-  transform: translate(-50%, -50%); 
-  width: 10em;
-  border-right: 9px solid rgba(148, 27, 102, 0.468);
+  top: 1100px;
+  left: 16%;
+  transform: translate(-50%, -50%);
   font-size: 100px;
   white-space: nowrap;
   overflow: hidden;
   transform: translateY(-50%);
   z-index: 100;
   color: #f0e8ed;
-  animation: glow 1s ease-in-out infinite alternate, blinkingCursor 0.7s step-end infinite;}
+  z-index: 100;}
 img.secondBanner {
 position: absolute;
 top: 2000px;   
@@ -200,14 +207,14 @@ button.secondGetMore {
     width: 3000px;
     z-index: 20;
     position: relative;   
-    top:1800px;     
+    top:1830px;     
     left:-900px;  
     background-image: url("images/primoCount.png");
     background-position:  center center;
     background-size: 900px 300px;   
     background-repeat: no-repeat;
     z-index: 17; }
-button.secondTenPulls {
+button.secondTenPullsStyle {
 position: absolute;
     top: 2550px;      
     left: 820px;  
@@ -235,48 +242,56 @@ z-index: 21;}
 @keyframes secondFreePullDrop{
     from{top: 2250px; left: 750px; width: 60px; height: 60px; display: block;}
     to{top: 2550px; left: 228px; width: 80px; height: 80px; display: none; border:#e599bce8;}}
-div.primoNotification {
-    opacity: 50%;
-    color: #ecc518;
-    size: cover;
+.primoNotification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(#78550f, #dcc182);
+  display: none;
+  z-index: 9999;
+opacity:0.9;}
+img.primoNotificationIntertwine{
+    position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  z-index:1000;
 }
 </style>  
 </header> 
 <body>
   <ul z-index="20" class="navBar">
-    <li><a href="Geschirrspüler-Projekt.html">Geschirspüler-Liste</a></li>
-    <li><a href="statistic.html">Statistik</a></li>
-    <li><a href="motivation.html">Motivation</a></li>
-        <li><a href="geschirrspühl-tagebuch.html">Geschirrspühl-Tagebuch</a></li>
-        <li><a href="genshin.html">Genshin ✨</a></li>
-     <li><a href="profile.html">Profile</a></li>
+    <li><a href="Geschirrspüler-Projekt.html">Home</a></li>
+    <li><a href="statistic.html">Primos</a></li>
   </ul>
 <img class="leftElementsGenshin" src="images/elementsGenshin.png">
 <img class="rightElementsGenshin" src="images/elementsGenshin.png">
 <p font-size="200px" class="cursor typewriter-animation">Whishing Banner <img src="images/genshinWhish.webp" style="border-radius:50%; border:3px, solid, rgb(245, 142, 189); width:200px;"></p>
-<button class="getPrimos">Get Primogems</button>
 <div class="yaeeee">
 <img class="yaemikoBanner" src="images/yaeMikoBanner.png">
 <img class="paimonPrimos" src="images/paimonPrimos.png"></img>
 <div class="primoCount"><img src="images/primoCount.png" class="primoCount"><img src="images/interwined.webp" class="whish">
-<p class="totalPrimos">insgesammt:</p></div>
+<p class="totalPrimos totalPrimosJavatext">insgesammt:</p></div>
 <button class="getMore" href="statistic.html">Get more!<img src="images/paimonPrimoDance.gif" style="margin: 20px 0 0 50px;"></button>
-<button class="tenPulls"></button>
+<button class="tenPulls firstTenPullStyle"></button>
 <button class="firstFreePulls"></button>
 <button class="onePull"></button>
 </div> 
 <div class="secondBannerrr">
-<p font-size="200px" class="cursorTartaglia typewriter-animation">Banner 2: Tortelini<img src="images/genshinWhish.webp" style="border-radius:50%; border:3px, solid, rgb(245, 142, 189); width:200px;"></p>
+<p class="cursorTartaglia typewriter-animation">Banner 2: Tortelini <img src="images/genshinWhish.webp" style="border-radius:50%; border:3px solid rgb(245,142,189); width:200px; vertical-align:middle;"></p>
 <img class="secondBanner" src="images/tartagliaBanner.png">
 <img class="secondPaimonPrimos" src="images/paimonPrimos.png"></img>
 <div class="secondPrimoCount"><img src="images/primoCount.png" class="secondPrimoCount"><img src="images/interwined.webp" class="secondWhish">
-<p class="secondTotalPrimos">insgesammt:</p></div>
-<button class="secondGetMore" href="statistic.html">Get more!<img src="images/paimonPrimoDance.gif" style="margin: 20px 0 0 50px;"></button>
-<button class="secondTenPulls"></button>
+<p class="secondTotalPrimos totalPrimosJavatext">insgesammt:</p></div>
+<button class="secondGetMore">Get more!<img src="images/paimonPrimoDance.gif" style="margin: 20px 0 0 50px;"></button>
+<button class="tenPulls secondTenPullsStyle"></button>
 <button class="secondFreePulls"></button>
 <button class="secondOnePull"></button>
-</div>
-<div class="primoNotificationnn"><div class="primoNotification"></div></div>
+</div><div class="primoNotification"></div><img src="images/intertwinenotific.png" class="primoNotificationIntertwine">
+
 </body>
 <script src="script.js"></script>
 </html>

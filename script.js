@@ -275,47 +275,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-//PrimoCount
-const primoText = document.querySelector('.totalPrimos');
-const getMoreButton = document.querySelector('.getMore');
-const firstFreePullButton = document.querySelector('.firstFreePulls');
-const tenPull = document.querySelector('.tenPulls');
-const secondFreePullButton = document.querySelector('.secondFreePulls');
-const primoNotification = document.querySelector('.primoNotification');
 
-let primoCount = 0;
+
+
+
+
+//PrimoCount
+const primoText = document.querySelectorAll('.totalPrimosJavatext');
+const getMoreButton = document.querySelector('.getMore');
+const secondGetMoreButton = document.querySelector('.secondGetMore');
+const firstFreePullButton = document.querySelector('.firstFreePulls');
+const tenPull = document.querySelectorAll('.tenPulls');
+const secondFreePullButton = document.querySelector('.secondFreePulls');
+
+let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
 let pity = 0;
 
-// Anfangs Primogems anzeigen
-if (primoText) primoText.innerHTML = `insgesamt:<br>${primoCount}`;
+function primoUpdateText() {
+        primoText.forEach(element => {
+            element.innerHTML = `insgesamt:<br>${primoCount}`;
+        })
+    localStorage.setItem('primoCount', primoCount);
+};
+primoUpdateText();
 
-// Button zum Weiterleiten
-if (getMoreButton) {
+if (getMoreButton && secondGetMoreButton) {
   getMoreButton.addEventListener('click', () => {
     window.location.href = "statistic.html";
   });
-}
-
-// Free Pull Button
-if (firstFreePullButton) {
-  firstFreePullButton.addEventListener('click', () => {
-    firstFreePullButton.style.animation = 'none';
-    // Reflow erzwingen, damit Animation neu startet
-    void firstFreePullButton.offsetWidth;
-    firstFreePullButton.style.animation = 'freePullDrop 2s forwards';
-    primoCount += 10;
-    primoText.innerHTML = `insgesamt:<br>${primoCount}`;
+      secondGetMoreButton.addEventListener('click', () => {
+    window.location.href = "statistic.html";
   });
 }
-if (secondFreePullButton) {
-  secondFreePullButton.addEventListener('click', () => {
-    secondFreePullButton.style.animation = 'none';
-    // Reflow erzwingen, damit Animation neu startet
-    void secondFreePullButton.offsetWidth;
-    secondFreePullButton.style.animation = 'freePullDrop 2s forwards';
-    primoCount += 10;
-    primoText.innerHTML = `insgesamt:<br>${primoCount}`;
-});}
 
 
 // Genshin Simulation
@@ -440,53 +431,51 @@ function simulateBanner(bannerType, wishes) {
   return state;
 }
 
-// Ten Pull Button
 if (tenPull) {
-  tenPull.addEventListener('click', () => {
-    if (primoCount >= 10) {
-      pity += 10;
-      primoCount -= 10;
-      primoText.innerHTML = `insgesamt:<br>${primoCount}`;
+  tenPull.forEach(button => {
+    button.addEventListener('click', () => {
+      if (primoCount >= 10) {
+        pity += 10;
+        primoCount -= 10;
+        primoText.forEach(el => el.innerHTML = `insgesamt:<br>${primoCount}`);
 
-      const result = simulateBanner(BANNER_CHARACTER, 10);
-      console.log('10-Pull Ergebnis:', result.resultHistory);
-    } else {
-      primoText.style.color = "red";
-      setTimeout(() => primoText.style.color = "", 1200);
-    }
+        const result = simulateBanner(BANNER_CHARACTER, 10);
+        console.log('10-Pull Ergebnis:', result.resultHistory);
+      } else {
+        primoText.forEach(el => {
+          el.style.color = "red";
+          setTimeout(() => el.style.color = "", 1200);
+        });
+      }
+    });
   });
 }
-function primoNotification {
-    primoNotification.style.display = "block";
-    if ('click', => (   primoNotification.style.display = "none";))}
 
 
 // LOCAL STORAGE!!!! :)
-let pulls = parseInt(localStorage.getItem('pullCount')) || 0;
-let freePullUsed = localStorage.getItem('freePullUsed') === 'true';
 
-// Animation nur, wenn Free Pull noch nicht genutzt wurde
+let freePullUsed = localStorage.getItem('freePullUsed') === 'true';
+let secondFreePullUsed = loc
+
 if (firstFreePullButton && !freePullUsed) {
-  firstFreePullButton.addEventListener('click', () => {
+    firstFreePullButton.addEventListener('click', () => {
     firstFreePullButton.style.animation = 'freePullDrop 2s forwards';
     primoCount += 10;
-    pulls += 1;
-    primoNotification();
-    localStorage.setItem('pullCount', pulls);
+    primoUpdateText();
     localStorage.setItem('freePullUsed', 'true');
   });
 } else if (firstFreePullButton && freePullUsed) {
-  firstFreePullButton.style.display = 'none';
+    firstFreePullButton.style.display = 'none';
 }
-if (secondFreePullButton ) {
+if (secondFreePullButton && !secondFreePullUsed) {
   secondFreePullButton.addEventListener('click', () => {
     secondFreePullButton.style.animation = 'secondFreePullDrop 2s forwards';
     primoCount += 10;
-    pulls += 1;
-    primoNotification();
-    localStorage.setItem('pullCount', pulls);
-    localStorage.setItem('freePullUsed', 'true');
+    primoUpdateText();
+    localStorage.setItem('secondFreePullUsed', 'true');
   });
-} else if (secondFreePullButton && freePullUsed) {
-  secondFreePullButton.style.display = 'none';}
-
+}  else if (secondFreePullButton && secondFreePullUsed) {
+    secondFreePullButton.style.display = 'none';
+}
+ 
+primoUpdateText();
