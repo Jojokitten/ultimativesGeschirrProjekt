@@ -438,7 +438,7 @@ if (tenPull) {
       if (primoCount >= 10) {
         pity += 10;
         primoCount -= 10;
-        primoUpdateText();;
+        primoUpdateText();
 
         const result = simulateBanner(BANNER_CHARACTER, 10);
         console.log('10-Pull Ergebnis:', result.resultHistory);
@@ -453,17 +453,26 @@ if (tenPull) {
 }
 
 if (onePull) {
-    onePull.forEach = (button => {
-        button.addEveltListener('click', () => {
-            if (primoCount > 0) {
-                whishOnce();
-                --primoCount;
-                primoUpdateText();
-
-    }
-})
-    })
+  onePull.forEach(button => {
+    button.addEventListener('click', () => {
+      if (primoCount > 0) {
+        ++pity;
+        --primoCount;
+        primoUpdateText();
+        const result = simulateBanner(BANNER_CHARACTER, 1);
+        console.log('1-Pull Ergebnis:', result.resultHistory);
+      } else {
+        if (primoText && primoText.forEach) {
+          primoText.forEach(el => {
+            el.style.color = "red";
+            setTimeout(() => el.style.color = "", 1200);
+          });
+        }
+      }
+    });
+  });
 }
+
 
 
 // LOCAL STORAGE!!!! :)
@@ -471,11 +480,12 @@ if (onePull) {
 let freePullUsed = localStorage.getItem('freePullUsed') === 'false';
 let secondFreePullUsed = localStorage.getItem('freePullUsed') === 'false';
 
+
+
 if (firstFreePullButton && !freePullUsed) {
     firstFreePullButton.addEventListener('click', () => {
     firstFreePullButton.style.animation = 'freePullDrop 2s forwards';
-    primoCount += 10;
-    primoUpdateText();
+    setTimeout(() => { primoCount += 10;     primoUpdateText();}, 2000);
     localStorage.setItem('freePullUsed', 'true');
   });
 } else if (firstFreePullButton && freePullUsed) {
@@ -484,8 +494,7 @@ if (firstFreePullButton && !freePullUsed) {
 if (secondFreePullButton && !secondFreePullUsed) {
   secondFreePullButton.addEventListener('click', () => {
     secondFreePullButton.style.animation = 'secondFreePullDrop 2s forwards';
-    primoCount += 10;
-    primoUpdateText();
+    setTimeout(() => { primoCount += 10;     primoUpdateText();}, 2000);
     localStorage.setItem('secondFreePullUsed', 'true');
   });
 }  else if (secondFreePullButton && secondFreePullUsed) {
@@ -493,3 +502,5 @@ if (secondFreePullButton && !secondFreePullUsed) {
 }
  
 primoUpdateText();
+
+

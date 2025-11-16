@@ -51,6 +51,8 @@ p.Delete2NaviaFont{
     margin: 20px 0 20px 0;
     font-family: 'Comic Sans MS', cursive, sans-serif;}
 ul {
+  align-items: center;
+  list-style: none;
   z-index: 200;
   list-style-type: none;
   margin: 0;
@@ -67,7 +69,8 @@ ul li a {
   padding: 14px 16px;
   text-decoration: none;}
 ul li a:hover {
-  background-color: hsl(342, 81%, 79%);}
+background: #ffe3f0;
+background: radial-gradient(circle, rgba(255, 227, 240, 1) 0%, rgba(242, 124, 181, 0.32) 100%);}
 
 button {
   font-size: 14px;
