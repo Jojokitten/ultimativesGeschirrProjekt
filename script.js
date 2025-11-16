@@ -469,7 +469,7 @@ if (onePull) {
 // LOCAL STORAGE!!!! :)
 
 let freePullUsed = localStorage.getItem('freePullUsed') === 'false';
-let secondFreePullUsed = localStorage.getItem('freePullUsed') === 'true';
+let secondFreePullUsed = localStorage.getItem('freePullUsed') === 'false';
 
 if (firstFreePullButton && !freePullUsed) {
     firstFreePullButton.addEventListener('click', () => {
