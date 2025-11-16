@@ -287,6 +287,7 @@ const secondGetMoreButton = document.querySelector('.secondGetMore');
 const firstFreePullButton = document.querySelector('.firstFreePulls');
 const tenPull = document.querySelectorAll('.tenPulls');
 const secondFreePullButton = document.querySelector('.secondFreePulls');
+const onePull = document.querySelectorAll('.onePull');
 
 let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
 let pity = 0;
@@ -437,7 +438,7 @@ if (tenPull) {
       if (primoCount >= 10) {
         pity += 10;
         primoCount -= 10;
-        primoText.forEach(el => el.innerHTML = `insgesamt:<br>${primoCount}`);
+        primoUpdateText();;
 
         const result = simulateBanner(BANNER_CHARACTER, 10);
         console.log('10-Pull Ergebnis:', result.resultHistory);
@@ -451,11 +452,24 @@ if (tenPull) {
   });
 }
 
+if (onePull) {
+    onePull.forEach = (button => {
+        button.addEveltListener('click', () => {
+            if (primoCount > 0) {
+                whishOnce();
+                --primoCount;
+                primoUpdateText();
+
+    }
+})
+    })
+}
+
 
 // LOCAL STORAGE!!!! :)
 
-let freePullUsed = localStorage.getItem('freePullUsed') === 'true';
-let secondFreePullUsed = loc
+let freePullUsed = localStorage.getItem('freePullUsed') === 'false';
+let secondFreePullUsed = localStorage.getItem('freePullUsed') === 'true';
 
 if (firstFreePullButton && !freePullUsed) {
     firstFreePullButton.addEventListener('click', () => {
