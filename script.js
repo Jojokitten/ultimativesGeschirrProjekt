@@ -295,11 +295,22 @@ function primoUpdateText() {
 }
 primoUpdateText();
 
+
+
+if (getMoreButton && secondGetMoreButton) {
+  getMoreButton.addEventListener('click', () => {
+    window.location.href = "statistic.html";
+  });
+      secondGetMoreButton.addEventListener('click', () => {
+    window.location.href = "statistic.html";
+  });
+}
+
 function playWishAnimation(dreiVierOderFünf) {
-    if (result === 4) {
+    if (dreiVierOderFünf === 5) {
     videoPlayer.src = wishAnimation[0].src;
   }
-    else  if (result === 4) {
+    else  if (dreiVierOderFünf === 4) {
     videoPlayer.src = wishAnimation[1].src;
  }
     else {
@@ -318,26 +329,17 @@ function playWishAnimation(dreiVierOderFünf) {
     videoPlayer.removeEventListener('click', closeAnimation);
     videoPlayer.style.cursor = 'default';}
 }
-
-if (getMoreButton && secondGetMoreButton) {
-  getMoreButton.addEventListener('click', () => {
-    window.location.href = "statistic.html";
-  });
-      secondGetMoreButton.addEventListener('click', () => {
-    window.location.href = "statistic.html";
-  });
-}
-
-
   const fiveStar = 0.006;
   const fourStar = 0.051;
   const threeStar = 1 - fiveStar - fourStar;
+  let guaranteed = false;
 
   function calcSinglePull() {
     const r = Math.random();
     if (r < fiveStar) return 5;
     if (r < fourStar) return 4;
     if (r < threeStar) return 3;
+
   }
 
   function calcTenPull() {
@@ -347,7 +349,8 @@ if (getMoreButton && secondGetMoreButton) {
       let r = calcSinglePull();
       results.push(r);
       if (r === 4 || r === 5) {
-        hasFourOrFiveStar = true;}
+        hasFourOrFiveStar = true;
+      }
     }
 
     if (!hasFourOrFiveStar) {
@@ -364,13 +367,11 @@ if (tenPull) {
   tenPull.forEach(button => {
     button.addEventListener('click', () => {
       if (primoCount >= 10) {
-        let zehnMalDreiVierOdFünf = tenPull(); // → [3, 3, 4, 5, ...]
-        let best = Math.max(zehnMalDreiVierOdFünf);
+        let zehnMalDreiVierOderFünf = calcTenPull(); // → [3, 3, 4, 5, ...]
+        let best = Math.max(...zehnMalDreiVierOderFünf);
         pity += 10;
         primoCount -= 10;
         primoUpdateText();
-
-        const result = simulateBanner(BANNER_CHARACTER, 10);
 
         playWishAnimation(best);
         console.log('10-Pull Ergebnis:', result.resultHistory);
@@ -378,10 +379,7 @@ if (tenPull) {
         primoText.forEach(el => {
           el.style.color = "red";
           setTimeout(() => el.style.color = "", 1200);
-        });
-      }
-    });
-  });
+        });} });});
 }
 
 if (onePull) {
