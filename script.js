@@ -149,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const furinaPlaylistGif = document.querySelector('.tenor-gif-embed');
    
     let currentSongIndex = 0;
-    FurinaPlaylistGif2
 
     const updateGifVisibility = (isCurrentlyPlaying) => {
         if (!furinaPlaylistGif) return;
@@ -190,10 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateGifVisibility(isPlaying);
     };
 
-
- 
-
-
     const togglePlayPause = () => {
         if (isPlaying) {
             videoPlayer.pause();
@@ -205,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // FIX: Verwende promise, um Playback-Fehler zu vermeiden
             const playPromise = videoPlayer.play();
             
-
 
 
             if (playPromise !== undefined) {
@@ -262,14 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
     videoPlayer.addEventListener('ended', () => navigateSong('next'));
 
 
-
-
-    // Initialen Song laden und GIF verstecken
     loadSong(currentSongIndex);
     updateGifVisibility(false);
     showVideo(isPlaying);
-
-
 });
 
 
@@ -288,17 +277,47 @@ const firstFreePullButton = document.querySelector('.firstFreePulls');
 const tenPull = document.querySelectorAll('.tenPulls');
 const secondFreePullButton = document.querySelector('.secondFreePulls');
 const onePull = document.querySelectorAll('.onePull');
+const videoPlayer = document.getElementById('videoPlayerWishAnimation');
+
+
+
+const wishAnimation = [{ index: 0, src: "playlist/5StarWishAnimation.mp4" }, { src: "playlist/4StarWishAnimation.mp4"}, { src: "playlist/3StarWishAnimation.mp4"}]
 
 let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
 let pity = 0;
+videoPlayer.pause();
 
 function primoUpdateText() {
         primoText.forEach(element => {
             element.innerHTML = `insgesamt:<br>${primoCount}`;
         })
     localStorage.setItem('primoCount', primoCount);
-};
+}
 primoUpdateText();
+
+function playWishAnimation(dreiVierOderFünf) {
+    if (result === 4) {
+    videoPlayer.src = wishAnimation[0].src;
+  }
+    else  if (result === 4) {
+    videoPlayer.src = wishAnimation[1].src;
+ }
+    else {
+    videoPlayer.src = wishAnimation[2].src;
+ }
+
+  videoPlayer.style.display = 'block';
+  videoPlayer.load();
+  videoPlayer.play();
+
+  videoPlayer.addEventListener('ended', () => {
+      videoPlayer.style.cursor = "url('images/genshinCursor.cur')";
+      videoPlayer.addEventListener('click', closeAnimation);})
+  function closeAnimation() {
+    videoPlayer.style.display = 'none';
+    videoPlayer.removeEventListener('click', closeAnimation);
+    videoPlayer.style.cursor = 'default';}
+}
 
 if (getMoreButton && secondGetMoreButton) {
   getMoreButton.addEventListener('click', () => {
@@ -310,137 +329,50 @@ if (getMoreButton && secondGetMoreButton) {
 }
 
 
-// Genshin Simulation
-const BANNER_CHARACTER = 'character';
-const BANNER_WEAPON = 'weapon';
-const BANNER_STANDARD = 'standard';
+  const fiveStar = 0.006;
+  const fourStar = 0.051;
+  const threeStar = 1 - fiveStar - fourStar;
 
-function createState(bannerType) {
-  return {
-    bannerType,
-    wishes: 0,
-    pity4: 0,
-    pity5: 0,
-    guaranteedFeatured5: false,
-    epitomizedFailCount: 0,
-    resultHistory: []
-  };
-}
-
-function wishOnce(state) {
-  const type = state.bannerType;
-  state.wishes++;
-  state.pity4++;
-  state.pity5++;
-
-  const baseRate4 = 0.051;
-  let baseRate5;
-  let hardPity5;
-
-  if (type === BANNER_CHARACTER || type === BANNER_STANDARD) {
-    baseRate5 = 0.006;
-    hardPity5 = 90;
-  } else {
-    baseRate5 = 0.0075;
-    hardPity5 = 80;
+  function calcSinglePull() {
+    const r = Math.random();
+    if (r < fiveStar) return 5;
+    if (r < fourStar) return 4;
+    if (r < threeStar) return 3;
   }
 
-  if (state.pity4 >= 10) {
-    state.pity4 = 0;
-    state.resultHistory.push({ rarity: 4 });
-    return 4;
-  }
-
-  if (state.pity5 >= hardPity5) {
-    state.pity5 = 0;
-    state.pity4 = 0;
-    if (type === BANNER_CHARACTER) {
-      if (state.guaranteedFeatured5) {
-        state.resultHistory.push({ rarity: 5, featured5: true });
-        state.guaranteedFeatured5 = false;
-      } else if (Math.random() < 0.5) {
-        state.resultHistory.push({ rarity: 5, featured5: true });
-      } else {
-        state.resultHistory.push({ rarity: 5, featured5: false });
-        state.guaranteedFeatured5 = true;
-      }
-    } else if (type === BANNER_WEAPON) {
-      const upRate = state.epitomizedFailCount >= 1 ? 1.0 : 0.75;
-      if (Math.random() < upRate) {
-        state.resultHistory.push({ rarity: 5, featured5: true });
-        state.epitomizedFailCount = 0;
-      } else {
-        state.resultHistory.push({ rarity: 5, featured5: false });
-        state.epitomizedFailCount++;
-      }
-    } else {
-      state.resultHistory.push({ rarity: 5 });
+  function calcTenPull() {
+    let results = [];
+    let hasFourOrFiveStar = false;
+    for (let i = 0; i < 9; i++) {
+      let r = calcSinglePull();
+      results.push(r);
+      if (r === 4 || r === 5) {
+        hasFourOrFiveStar = true;}
     }
-    return 5;
-  }
 
-  let currentRate5 = baseRate5;
-  if (type === BANNER_CHARACTER && state.pity5 >= 75) {
-    const extra = (state.pity5 - 75) / (hardPity5 - 75);
-    currentRate5 = baseRate5 + (1 - baseRate5) * extra;
-    if (currentRate5 > 1) currentRate5 = 1;
-  }
-
-  if (Math.random() < currentRate5) {
-    state.pity5 = 0;
-    state.pity4 = 0;
-    if (type === BANNER_CHARACTER) {
-      if (state.guaranteedFeatured5) {
-        state.resultHistory.push({ rarity: 5, featured5: true });
-        state.guaranteedFeatured5 = false;
-      } else if (Math.random() < 0.5) {
-        state.resultHistory.push({ rarity: 5, featured5: true });
-      } else {
-        state.resultHistory.push({ rarity: 5, featured5: false });
-        state.guaranteedFeatured5 = true;
-      }
-    } else if (type === BANNER_WEAPON) {
-      const upRate = state.epitomizedFailCount >= 1 ? 1.0 : 0.75;
-      if (Math.random() < upRate) {
-        state.resultHistory.push({ rarity: 5, featured5: true });
-        state.epitomizedFailCount = 0;
-      } else {
-        state.resultHistory.push({ rarity: 5, featured5: false });
-        state.epitomizedFailCount++;
-      }
-    } else {
-      state.resultHistory.push({ rarity: 5 });
+    if (!hasFourOrFiveStar) {
+      const r = Math.random();
+      results.push(r < fiveStar / (fiveStar + fourStar) ? 5 : 4 );
     }
-    return 5;
+    else {
+      results.push(calcSinglePull());
+    }
+    return results;
   }
-
-  if (Math.random() < baseRate4) {
-    state.pity4 = 0;
-    state.resultHistory.push({ rarity: 4 });
-    return 4;
-  }
-
-  state.resultHistory.push({ rarity: 3 });
-  return 3;
-}
-
-function simulateBanner(bannerType, wishes) {
-  const state = createState(bannerType);
-  for (let i = 0; i < wishes; i++) {
-    wishOnce(state);
-  }
-  return state;
-}
 
 if (tenPull) {
   tenPull.forEach(button => {
     button.addEventListener('click', () => {
       if (primoCount >= 10) {
+        let zehnMalDreiVierOdFünf = tenPull(); // → [3, 3, 4, 5, ...]
+        let best = Math.max(zehnMalDreiVierOdFünf);
         pity += 10;
         primoCount -= 10;
         primoUpdateText();
 
         const result = simulateBanner(BANNER_CHARACTER, 10);
+
+        playWishAnimation(best);
         console.log('10-Pull Ergebnis:', result.resultHistory);
       } else {
         primoText.forEach(el => {
@@ -456,11 +388,12 @@ if (onePull) {
   onePull.forEach(button => {
     button.addEventListener('click', () => {
       if (primoCount > 0) {
+        const dreiVierOderFünf = calcSinglePull();
+        playWishAnimation(dreiVierOderFünf);
         ++pity;
         --primoCount;
         primoUpdateText();
-        const result = simulateBanner(BANNER_CHARACTER, 1);
-        console.log('1-Pull Ergebnis:', result.resultHistory);
+        console.log('1-Pull Ergebnis: keinen Plan', result.resultHistory);
       } else {
         if (primoText && primoText.forEach) {
           primoText.forEach(el => {
@@ -472,6 +405,8 @@ if (onePull) {
     });
   });
 }
+
+
 
 
 

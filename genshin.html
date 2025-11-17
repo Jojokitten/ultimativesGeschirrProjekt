@@ -95,6 +95,16 @@ img.rightElementsGenshin {
 @keyframes blinkingCursor {
   0%, 100% { border-color: transparent; }
   50% { border-color: rgba(148, 27, 102, 0.8); }}
+#videoPlayerWishAnimation {
+  width: 1300px;  
+  height: auto; 
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  display: none;
+  z-index: 201;
+  cursor: url("images/genshinCursor.cur"), auto;
+}
 
   /*yae*/
 img.yaemikoBanner {
@@ -317,6 +327,7 @@ img.primoNotificationIntertwine{
 </div><div class="primoNotification"></div><img src="images/intertwinenotific.png" class="primoNotificationIntertwine">
 <button onclick="window.location.href='characterMenue.html'" id="openCharacterMenue"><img id="characterMenue" src="images/rosa.characterMenue.png"></button>
 
+<video id="videoPlayerWishAnimation"></video>
 </body>
 <script src="script.js"></script>
 </html>
