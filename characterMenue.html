@@ -7,12 +7,29 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
+body {
+  background-image: url('images/nightGenshinMenuBG.jpg');
+  background-position:  center -100px; 
+  background-size: 1300px;
+background-repeat: no-repeat;
+background-attachment: fixed;
+  cursor: url('images/genshinCursor.cur'), auto;}
 :root{
       --pink-900: #8a0034;
       --pink-700: #d71c79;
       --pink-500: #f36cd0;
       --pink-300: #ffd6ed;}
-ul li {
+ul {
+background-position:  0px -5px;
+background-size: 1300px 57px;
+background-repeat: no-repeat;
+background-image: url('images/characterMenueNavBar.png');
+border: 1px solid rgb(174, 198, 232);}
+ul li a {
+  color: rgb(195, 199, 241);}
+ul li a:hover {
+background: #6287d8;}
+      ul li {
   margin-right: 20px;}
 .profileItem {
   margin-left: auto; 
@@ -23,13 +40,35 @@ ul li {
   padding: -20px;
   height: 50px;}
 
+.allCharacterssss {
+  margin-top: 120px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+  padding: 40px;
+  justify-items: center;}
+.characterMenuImg {
+  width: 165px;
+  height: auto;
+  border-radius: 17px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;}
+.characterMenuImg:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 18px rgba(255, 145, 206, 0.6);}
 </style>
 
 <body>
   <ul z-index="20" class="navBar">
     <li><a href="index.html"><img src="images/home-button.png"; width="20px";>&nbsp; Home</a></li>
     <li><a href="statistic.html"><img src="images/primoIcon.ico"; width="20px";> &nbsp; Primos</a></li>
+    <li><a href="genshin.html">Banners</a></li>
     <li class="profileItem"><a href="profile.html"><img class="profileIcon" src="images/paimonIcon.png"></a></li>
   </ul>
+
+  <div class="allCharacterssss">
+    <a href="showAlhatham.html"><img src="images/characterAlhaitham.png" class="alhathamImg characterMenuImg"></a>
+    <a href="showYae.html"><img src="images/characterYaeMiko.png" class="yaeMikoImg characterMenuImg"></a>
+  </div>
 </body>
 </html>
