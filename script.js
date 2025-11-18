@@ -339,8 +339,21 @@ function playWishAnimation(dreiVierOderFünf) {
     if (r < fiveStar) return 5;
     if (r < fourStar) return 4;
     if (r < threeStar) return 3;
-
   }
+
+if (r < fiveStar) {
+  if (guaranteed) {
+    guaranteed = false;
+    return "Banner-Character";
+  }
+
+  const won = Math.random() < 0.5;
+  if (!won) {
+    guaranteed = true;
+    return "Standardbanner-Character";
+  }
+    return "Banner-Character";
+}
 
   function calcTenPull() {
     let results = [];
@@ -437,3 +450,4 @@ if (secondFreePullButton && !secondFreePullUsed) {
 primoUpdateText();
 
 
+//CharacterInventar
