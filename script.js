@@ -274,14 +274,14 @@ const primoText = document.querySelectorAll('.totalPrimosJavatext');
 const getMoreButton = document.querySelector('.getMore');
 const secondGetMoreButton = document.querySelector('.secondGetMore');
 const firstFreePullButton = document.querySelector('.firstFreePulls');
-const tenPull = document.querySelectorAll('.tenPulls');
+const firstTenPull = document.querySelector('.tenPulls');
 const secondFreePullButton = document.querySelector('.secondFreePulls');
-const onePull = document.querySelectorAll('.onePull');
+const firstOnePull = document.querySelector('.onePull');
 const videoPlayer = document.getElementById('videoPlayerWishAnimation');
+const secondOnePull = document.querySelector('.secondOnePull');
+const secondTenPull = document.querySelector('.secondTenPull');
 
-
-
-const wishAnimation = [{ index: 0, src: "playlist/5StarWishAnimation.mp4" }, { src: "playlist/4StarWishAnimation.mp4"}, { src: "playlist/3StarWishAnimation.mp4"}]
+const wishAnimation = [{ index: 0, src: "playlist/5StarWishAnimation.mp4" }, { src: "playlist/4StarWishAnimation.mp4" }, { src: "playlist/3StarWishAnimation.mp4" }, { src: "playlist/yaeWhisAnimationC0.mp4" }];
 
 let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
 let pity = 0;
@@ -307,14 +307,27 @@ if (getMoreButton && secondGetMoreButton) {
 }
 
 function playWishAnimation(dreiVierOderFünf) {
-    if (dreiVierOderFünf === 5) {
+  if (dreiVierOderFünf === 5) {
     videoPlayer.src = wishAnimation[0].src;
-  }
-    else  if (dreiVierOderFünf === 4) {
+    if (obFiveBanChar === "pullYae") {
+      videoPlayer.src += wishAnimation[3].src;
+    }
+    else if (obFiveBanChar === "pullAlhaitam") {
+      videoPlayer.src += wishAnimation[4].src;
+    }
+    else if (standBanChar === "pullQiqi") {
+      videoPlayer.src += wishAnimation[5].src;
+    }
+    else {  
+      videoPlayer.src += wishAnimation[6].src; //pullMinni
+    }}
+
+  else if (dreiVierOderFünf === 4) {
     videoPlayer.src = wishAnimation[1].src;
+    videoPlayer.src += wishAnimation[7].src; //4 star char
  }
     else {
-    videoPlayer.src = wishAnimation[2].src;
+    videoPlayer.src = wishAnimation[2].src + wishAnimation[8].src; //poop
  }
 
   videoPlayer.style.display = 'block';
@@ -329,6 +342,7 @@ function playWishAnimation(dreiVierOderFünf) {
     videoPlayer.removeEventListener('click', closeAnimation);
     videoPlayer.style.cursor = 'default';}
 }
+
   const fiveStar = 0.006;
   const fourStar = 0.051;
   const threeStar = 1 - fiveStar - fourStar;
@@ -342,19 +356,32 @@ function playWishAnimation(dreiVierOderFünf) {
   }
 
 if (r < fiveStar) {
+  pity = 0;
+
   if (guaranteed) {
     guaranteed = false;
-    return "Banner-Character";
+
+    const obFiveBanChar = Math.random();
+    if (firstOnePull || firstTenPull) {
+      return obFiveBanChar = "pullYae";
+    }
+    else {
+      return obFiveBanChar = "pullAlhaitham";
+    }
   }
 
   const won = Math.random() < 0.5;
   if (!won) {
     guaranteed = true;
+    const standBanChar = Math.random();
+    const qiqi = 0.3;
+    const minni = 1- qiqi;
+    if (standardBannerCharacter < qiqi) return standBanChar = "pullQiqi";
+    if (standardBannerCharacter < minni) return standBanChar= "pullMinni";
     return "Standardbanner-Character";
   }
-    return "Banner-Character";
+  return "Banner-Character";
 }
-
   function calcTenPull() {
     let results = [];
     let hasFourOrFiveStar = false;
@@ -376,8 +403,8 @@ if (r < fiveStar) {
     return results;
   }
 
-if (tenPull) {
-  tenPull.forEach(button => {
+if (firstTenPull && secondTenPull) {
+  firstTenPull.forEach(button => {
     button.addEventListener('click', () => {
       if (primoCount >= 10) {
         let zehnMalDreiVierOderFünf = calcTenPull(); // → [3, 3, 4, 5, ...]
@@ -385,8 +412,25 @@ if (tenPull) {
         pity += 10;
         primoCount -= 10;
         primoUpdateText();
-
         playWishAnimation(best);
+        updateInventar();
+        console.log('10-Pull Ergebnis:', result.resultHistory);
+      } else {
+        primoText.forEach(el => {
+          el.style.color = "red";
+          setTimeout(() => el.style.color = "", 1200);
+        });} });});
+        
+    secondTenPull.forEach(button => {
+    button.addEventListener('click', () => {
+      if (primoCount >= 10) {
+        let zehnMalDreiVierOderFünf = calcTenPull(); // → [3, 3, 4, 5, ...]
+        let best = Math.max(...zehnMalDreiVierOderFünf);
+        pity += 10;
+        primoCount -= 10;
+        primoUpdateText();
+        playWishAnimation(best);
+        updateInventar();
         console.log('10-Pull Ergebnis:', result.resultHistory);
       } else {
         primoText.forEach(el => {
@@ -395,8 +439,8 @@ if (tenPull) {
         });} });});
 }
 
-if (onePull) {
-  onePull.forEach(button => {
+if (firstOnePull && secondOnePull) {
+  firstOnePull.forEach(button => {
     button.addEventListener('click', () => {
       if (primoCount > 0) {
         const dreiVierOderFünf = calcSinglePull();
@@ -404,17 +448,31 @@ if (onePull) {
         ++pity;
         --primoCount;
         primoUpdateText();
+        updateInventar();
         console.log('1-Pull Ergebnis: keinen Plan', result.resultHistory);
       } else {
         if (primoText && primoText.forEach) {
           primoText.forEach(el => {
             el.style.color = "red";
             setTimeout(() => el.style.color = "", 1200);
-          });
-        }
-      }
-    });
-  });
+          });}}});});
+
+   secondOnePull.forEach(button => {
+    button.addEventListener('click', () => {
+      if (primoCount > 0) {
+        const dreiVierOderFünf = calcSinglePull();
+        playWishAnimation(dreiVierOderFünf);
+        ++pity;
+        --primoCount;
+        primoUpdateText();
+        updateInventar();
+        console.log('1-Pull Ergebnis: keinen Plan', result.resultHistory);
+      } else {
+        if (primoText && primoText.forEach) {
+          primoText.forEach(el => {
+            el.style.color = "red";
+            setTimeout(() => el.style.color = "", 1200);
+      });}}});});
 }
 
 
@@ -451,3 +509,18 @@ primoUpdateText();
 
 
 //CharacterInventar
+function updateInventar() {
+  const yaeNotRecivedImg = document.querySelector('.1yaeMikoImg');
+  const yaeRecivedImg = document.querySelector('.2yaeMikoImg');
+    const alhaithamNotRecivedImg = document.querySelector('.1alhathamImg');
+  const AlhaithamRecivedImg = document.querySelector('.2alhathamImg');
+
+  if (obtainedCharacter === "pullYae") {
+    yaeNotRecivedImg.style.display = 'none';
+    yaeRecivedImg.style.display = 'block';
+  }
+  if (obtainedCharacter === "pullAlhatham") {
+    alhaithamNotRecivedImg.style.display = 'none';
+    AlhaithamRecivedImg.style.display = 'block';
+  }
+}
