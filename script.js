@@ -281,7 +281,7 @@ const videoPlayer = document.getElementById('videoPlayerWishAnimation');
 const secondOnePull = document.querySelector('.secondOnePull');
 const secondTenPull = document.querySelector('.secondTenPull');
 
-const wishAnimation = [{ index: 0, src: "playlist/5StarWishAnimation.mp4" }, { src: "playlist/4StarWishAnimation.mp4" }, { src: "playlist/3StarWishAnimation.mp4" }, { src: "playlist/yaeWhisAnimationC0.mp4" }];
+const wishAnimation = [{ index: 0, src: "playlist/5StarWishAnimation.mp4" }, { src: "playlist/4StarWishAnimation.mp4" }, { src: "playlist/3StarWishAnimation.mp4" }, { src: "playlist/yaeWhisAnimationC0.mp4" }, {src: "tartagliawhisAnimationC0"}, {src: "playlist/qiqiWishAnimationC0.mp4"}, {src: "playlist/minniWishAnimationC0.mp4"}];
 
 let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
 let pity = 0;
