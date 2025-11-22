@@ -274,206 +274,240 @@ const primoText = document.querySelectorAll('.totalPrimosJavatext');
 const getMoreButton = document.querySelector('.getMore');
 const secondGetMoreButton = document.querySelector('.secondGetMore');
 const firstFreePullButton = document.querySelector('.firstFreePulls');
-const firstTenPull = document.querySelector('.tenPulls');
 const secondFreePullButton = document.querySelector('.secondFreePulls');
-const firstOnePull = document.querySelector('.onePull');
-const videoPlayer = document.getElementById('videoPlayerWishAnimation');
-const secondOnePull = document.querySelector('.secondOnePull');
-const secondTenPull = document.querySelector('.secondTenPull');
+const wishVideoPlayer = document.getElementById('videoPlayerWishAnimation');
 
-const wishAnimation = [{ index: 0, src: "playlist/5StarWishAnimation.mp4" }, { src: "playlist/4StarWishAnimation.mp4" }, { src: "playlist/3StarWishAnimation.mp4" }, { src: "playlist/yaeWhisAnimationC0.mp4" }, {src: "tartagliawhisAnimationC0"}, {src: "playlist/qiqiWishAnimationC0.mp4"}, {src: "playlist/minniWishAnimationC0.mp4"}];
+const firstTenPull = document.querySelectorAll('.tenPulls');
+const secondTenPull = document.querySelectorAll('.secondTenPull');
+const firstOnePull = document.querySelectorAll('.onePull');
+const secondOnePull = document.querySelectorAll('.secondOnePull');
 
-let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
-let pity = 0;
-videoPlayer.pause();
+    
+  let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
+  let pity = parseInt(localStorage.getItem('pity')) || 0;
+  let guaranteed = localStorage.getItem('guaranteed') === 'true';
+  let currentBanner = localStorage.getItem('currentBanner') || "first";
 
-function primoUpdateText() {
-        primoText.forEach(element => {
-            element.innerHTML = `insgesamt:<br>${primoCount}`;
-        })
-    localStorage.setItem('primoCount', primoCount);
-}
-primoUpdateText();
+    
+    const FIVE_RATE = 0.006;
+    const FOUR_RATE = 0.051;    
+    const featured5_firstBanner = "yae";
+    const featured5_secondBanner = "tartaglia";
 
+    const wishAnimation = {
+        five: "playlist/5StarWishAnimation.mp4",
+        four: "playlist/4StarWishAnimation.mp4",
+        three: "playlist/3StarWishAnimation.mp4",
+        yae: "playlist/yaeWhisAnimationC0.mp4",
+        tartaglia: "playlist/tartagliawhisAnimationC0.mp4",
+        qiqi: "playlist/qiqiWishAnimationC0.mp4",
+        minni: "playlist/minniC0.mp4"
+    };
 
+    if (wishVideoPlayer) wishVideoPlayer.pause();
+    
+    function updateInventar() {
+        console.log("Inventar wurde aktualisiert.");
+        // CharacterInventar logic
+        const yaeNotRecivedImg = document.querySelector('.1yaeMikoImg');
+        const yaeRecivedImg = document.querySelector('.2yaeMikoImg');
+        const alhaithamNotRecivedImg = document.querySelector('.1alhathamImg');
+        const AlhaithamRecivedImg = document.querySelector('.2alhathamImg');
 
-if (getMoreButton && secondGetMoreButton) {
-  getMoreButton.addEventListener('click', () => {
-    window.location.href = "statistic.html";
-  });
-      secondGetMoreButton.addEventListener('click', () => {
-    window.location.href = "statistic.html";
-  });
-}
+        if (typeof obtainedCharacter !== "undefined") {
+            if (obtainedCharacter === "pullYae") {
+                if (yaeNotRecivedImg) yaeNotRecivedImg.style.display = 'none';
+                if (yaeRecivedImg) yaeRecivedImg.style.display = 'block';
+            }
+            if (obtainedCharacter === "pullAlhatham") {
+                if (alhaithamNotRecivedImg) alhaithamNotRecivedImg.style.display = 'none';
+                if (AlhaithamRecivedImg) AlhaithamRecivedImg.style.display = 'block';
+            }
+        }
+    } 
+    function primoUpdateText() {
+        primoText.forEach(e => e.innerHTML = `insgesamt:<br>${primoCount}`);
+        localStorage.setItem('primoCount', primoCount);
+        localStorage.setItem('pity', pity);
+        localStorage.setItem('guaranteed', guaranteed);
+        localStorage.setItem('currentBanner', currentBanner);
+    }        primoUpdateText(); 
 
-function playWishAnimation(dreiVierOderFünf) {
-  if (dreiVierOderFünf === 5) {
-    videoPlayer.src = wishAnimation[0].src;
-    if (obFiveBanChar === "pullYae") {
-      videoPlayer.src += wishAnimation[3].src;
-    }
-    else if (obFiveBanChar === "pullAlhaitam") {
-      videoPlayer.src += wishAnimation[4].src;
-    }
-    else if (standBanChar === "pullQiqi") {
-      videoPlayer.src += wishAnimation[5].src;
-    }
-    else {  
-      videoPlayer.src += wishAnimation[6].src; //pullMinni
-    }}
-
-  else if (dreiVierOderFünf === 4) {
-    videoPlayer.src = wishAnimation[1].src;
-    videoPlayer.src += wishAnimation[7].src; //4 star char
- }
-    else {
-    videoPlayer.src = wishAnimation[2].src + wishAnimation[8].src; //poop
- }
-
-  videoPlayer.style.display = 'block';
-  videoPlayer.load();
-  videoPlayer.play();
-
-  videoPlayer.addEventListener('ended', () => {
-      videoPlayer.style.cursor = "url('images/genshinCursor.cur')";
-      videoPlayer.addEventListener('click', closeAnimation);})
-  function closeAnimation() {
-    videoPlayer.style.display = 'none';
-    videoPlayer.removeEventListener('click', closeAnimation);
-    videoPlayer.style.cursor = 'default';}
-}
-
-  const fiveStar = 0.006;
-  const fourStar = 0.051;
-  const threeStar = 1 - fiveStar - fourStar;
-  let guaranteed = false;
-
-  function calcSinglePull() {
-    const r = Math.random();
-    if (r < fiveStar) return 5;
-    if (r < fourStar) return 4;
-    if (r < threeStar) return 3;
-  }
-
-if (r < fiveStar) {
-  pity = 0;
-
-  if (guaranteed) {
-    guaranteed = false;
-
-    const obFiveBanChar = Math.random();
-    if (firstOnePull || firstTenPull) {
-      return obFiveBanChar = "pullYae";
-    }
-    else {
-      return obFiveBanChar = "pullAlhaitham";
-    }
-  }
-
-  const won = Math.random() < 0.5;
-  if (!won) {
-    guaranteed = true;
-    const standBanChar = Math.random();
-    const qiqi = 0.3;
-    const minni = 1- qiqi;
-    if (standardBannerCharacter < qiqi) return standBanChar = "pullQiqi";
-    if (standardBannerCharacter < minni) return standBanChar= "pullMinni";
-    return "Standardbanner-Character";
-  }
-  return "Banner-Character";
-}
-  function calcTenPull() {
-    let results = [];
-    let hasFourOrFiveStar = false;
-    for (let i = 0; i < 9; i++) {
-      let r = calcSinglePull();
-      results.push(r);
-      if (r === 4 || r === 5) {
-        hasFourOrFiveStar = true;
-      }
-    }
-
-    if (!hasFourOrFiveStar) {
-      const r = Math.random();
-      results.push(r < fiveStar / (fiveStar + fourStar) ? 5 : 4 );
-    }
-    else {
-      results.push(calcSinglePull());
-    }
-    return results;
-  }
-
-if (firstTenPull && secondTenPull) {
-  firstTenPull.forEach(button => {
-    button.addEventListener('click', () => {
-      if (primoCount >= 10) {
-        let zehnMalDreiVierOderFünf = calcTenPull(); // → [3, 3, 4, 5, ...]
-        let best = Math.max(...zehnMalDreiVierOderFünf);
-        pity += 10;
-        primoCount -= 10;
-        primoUpdateText();
-        playWishAnimation(best);
-        updateInventar();
-        console.log('10-Pull Ergebnis:', result.resultHistory);
-      } else {
-        primoText.forEach(el => {
-          el.style.color = "red";
-          setTimeout(() => el.style.color = "", 1200);
-        });} });});
         
-    secondTenPull.forEach(button => {
-    button.addEventListener('click', () => {
-      if (primoCount >= 10) {
-        let zehnMalDreiVierOderFünf = calcTenPull(); // → [3, 3, 4, 5, ...]
-        let best = Math.max(...zehnMalDreiVierOderFünf);
-        pity += 10;
-        primoCount -= 10;
-        primoUpdateText();
-        playWishAnimation(best);
-        updateInventar();
-        console.log('10-Pull Ergebnis:', result.resultHistory);
-      } else {
-        primoText.forEach(el => {
-          el.style.color = "red";
-          setTimeout(() => el.style.color = "", 1200);
-        });} });});
-}
+    
+    function calcSingleRarity() {
+        
+        const fiveStarRate = pity >= 74 ? FIVE_RATE * (1 + (pity - 73) * 10) : FIVE_RATE;
+        
+        const j = Math.random();
 
-if (firstOnePull && secondOnePull) {
-  firstOnePull.forEach(button => {
-    button.addEventListener('click', () => {
-      if (primoCount > 0) {
-        const dreiVierOderFünf = calcSinglePull();
-        playWishAnimation(dreiVierOderFünf);
-        ++pity;
-        --primoCount;
-        primoUpdateText();
-        updateInventar();
-        console.log('1-Pull Ergebnis: keinen Plan', result.resultHistory);
-      } else {
-        if (primoText && primoText.forEach) {
-          primoText.forEach(el => {
-            el.style.color = "red";
-            setTimeout(() => el.style.color = "", 1200);
-          });}}});});
+        if (j < fiveStarRate) return 5;
+        
+        if (pity % 10 === 9) return 4; 
+        
+        if (j < FIVE_RATE + FOUR_RATE) return 4;
+        return 3;
+    }
+    
+    function getFiveStarForCurrentBanner() {
+        return currentBanner === "first" ? featured5_firstBanner : featured5_secondBanner;
+    }
+    
+    function calcCharacter(rarity) {
+        if (rarity !== 5) {            
+            return "4star_placeholder"; 
+        }
 
-   secondOnePull.forEach(button => {
-    button.addEventListener('click', () => {
-      if (primoCount > 0) {
-        const dreiVierOderFünf = calcSinglePull();
-        playWishAnimation(dreiVierOderFünf);
-        ++pity;
-        --primoCount;
-        primoUpdateText();
-        updateInventar();
-        console.log('1-Pull Ergebnis: keinen Plan', result.resultHistory);
-      } else {
-        if (primoText && primoText.forEach) {
-          primoText.forEach(el => {
-            el.style.color = "red";
-            setTimeout(() => el.style.color = "", 1200);
-      });}}});});
-}
+        pity = 0; 
+
+        if (guaranteed) {
+            guaranteed = false;
+            return getFiveStarForCurrentBanner(); 
+        }
+
+        const win = Math.random() < 0.5; 
+
+        if (win) {
+            return getFiveStarForCurrentBanner(); 
+      }
+             
+        guaranteed = true;
+        
+        return Math.random() < 0.5 ? "qiqi" : "minni"; 
+    }
+    
+    function calcTenPull() {
+        let results = [];
+        let hasRare = false;
+
+        for (let i = 0; i < 10; i++) { 
+            const currentRarity = calcSingleRarity();
+            results.push(currentRarity);
+            if (currentRarity >= 4) hasRare = true;
+        }
+
+        
+        
+        if (!hasRare) {
+            const index = results.indexOf(3);
+            if (index !== -1) {
+                results[index] = 4;
+            }
+        }
+        return results;
+    }
+
+    
+    function playWishAnimation(rarity, charName) {
+      if (!wishVideoPlayer) return;
+      
+        let src = "";
+              
+        if (rarity === 5 && wishAnimation[charName]) {
+            src = wishAnimation[charName];
+        }
+        
+        else if (rarity === 4) {
+            src = wishAnimation["four"];
+        } 
+        
+        else {
+            src = wishAnimation["three"];
+        }
+
+        wishVideoPlayer.src = src;
+        wishVideoPlayer.style.display = 'block';
+        wishVideoPlayer.load();
+        wishVideoPlayer.play();
+
+        
+        wishVideoPlayer.onended = () => {
+            wishVideoPlayer.style.display = 'none';
+        };
+    }
+
+    
+    
+    
+
+    
+    if (getMoreButton && secondGetMoreButton) {
+        const handleNavigation = () => {
+            window.location.href = "statistic.html";
+        };
+        getMoreButton.addEventListener('click', handleNavigation);
+        secondGetMoreButton.addEventListener('click', handleNavigation);
+    }
+
+
+    let obtainedCharacter = null;
+    
+    function handleSinglePull(banner) {
+            if (primoCount > 0) {
+                currentBanner = banner;
+    
+                const rarity = calcSingleRarity();
+                let charName = (rarity === 5) ? calcCharacter(rarity) : null;
+                
+                ++pity;
+                --primoCount;
+    
+                // Update obtainedCharacter if a 5-star character is obtained
+                if (rarity === 5 && charName) {
+                    if (charName === "yae") {
+                        obtainedCharacter = "pullYae";
+                    } else if (charName === "alhaitham") {
+                        obtainedCharacter = "pullAlhatham";
+                    }
+                }
+                
+                playWishAnimation(rarity, charName);
+                primoUpdateText();
+                updateInventar();
+    
+            } else {
+                primoText.forEach(el => {
+                    el.style.color = "red";
+                    setTimeout(() => el.style.color = "", 1200);
+                });
+            }
+        }
+
+    function handleTenPull(banner) {
+        if (primoCount >= 10) {
+            currentBanner = banner;
+
+            const results = calcTenPull();
+            const highestRarity = Math.max(...results); 
+            
+            
+            let charName = (highestRarity === 5) ? calcCharacter(5) : null;
+            
+            pity += 10;
+            primoCount -= 10;
+            
+            playWishAnimation(highestRarity, charName);
+            primoUpdateText();
+            updateInventar();
+
+        } else {
+            primoText.forEach(el => {
+                el.style.color = "red";
+                
+                setTimeout(() => el.style.color = "", 1200); 
+            });
+        }
+    }
+
+    
+    
+    
+    firstOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("first")));
+    firstTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("first")));
+    
+    
+    secondOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("second")));
+    secondTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("second")));
 
 
 
@@ -481,8 +515,8 @@ if (firstOnePull && secondOnePull) {
 
 // LOCAL STORAGE!!!! :)
 
-let freePullUsed = localStorage.getItem('freePullUsed') === 'false';
-let secondFreePullUsed = localStorage.getItem('freePullUsed') === 'false';
+let freePullUsed = localStorage.getItem('freePullUsed') !== 'true';
+let secondFreePullUsed = localStorage.getItem('secondFreePullUsed') !== 'true';
 
 
 
@@ -498,29 +532,14 @@ if (firstFreePullButton && !freePullUsed) {
 if (secondFreePullButton && !secondFreePullUsed) {
   secondFreePullButton.addEventListener('click', () => {
     secondFreePullButton.style.animation = 'secondFreePullDrop 2s forwards';
-    setTimeout(() => { primoCount += 10;     primoUpdateText();}, 2000);
-    localStorage.setItem('secondFreePullUsed', 'true');
-  });
-}  else if (secondFreePullButton && secondFreePullUsed) {
-    secondFreePullButton.style.display = 'none';
-}
- 
-primoUpdateText();
+    const AlhaithamRecivedImg = document.querySelector('.2alhathamImg');
 
-
-//CharacterInventar
-function updateInventar() {
-  const yaeNotRecivedImg = document.querySelector('.1yaeMikoImg');
-  const yaeRecivedImg = document.querySelector('.2yaeMikoImg');
-    const alhaithamNotRecivedImg = document.querySelector('.1alhathamImg');
-  const AlhaithamRecivedImg = document.querySelector('.2alhathamImg');
-
-  if (obtainedCharacter === "pullYae") {
-    yaeNotRecivedImg.style.display = 'none';
-    yaeRecivedImg.style.display = 'block';
-  }
-  if (obtainedCharacter === "pullAlhatham") {
-    alhaithamNotRecivedImg.style.display = 'none';
-    AlhaithamRecivedImg.style.display = 'block';
-  }
+    if (typeof obtainedCharacter !== "undefined" && obtainedCharacter === "pullYae") {
+      if (yaeNotRecivedImg) yaeNotRecivedImg.style.display = 'none';
+      if (yaeRecivedImg) yaeRecivedImg.style.display = 'block';
+    }
+    if (typeof obtainedCharacter !== "undefined" && obtainedCharacter === "pullAlhatham") {
+      if (alhaithamNotRecivedImg) alhaithamNotRecivedImg.style.display = 'none';
+      if (AlhaithamRecivedImg) AlhaithamRecivedImg.style.display = 'block';
+    };});
 }
