@@ -1,4 +1,55 @@
 
+//mockAPI
+const apiUrl = 'https://6920e6b5512fb4140bdec336.mockapi.io/api/:endpoint'; 
+
+const selectionData = {
+    userId: 123,
+    selectedColor: 'none',
+    timestamp: new Date().toISOString()
+};
+
+fetch(apiUrl, {
+    method: 'POST', 
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(selectionData)
+})
+.then(response => response.json())
+.then(data => {
+    console.log('Neue Auswahl gespeichert mit ID:', data.id);
+});
+
+
+
+//alle einträge laden
+
+fetch(apiUrl) // Methode ist standardmäßig GET
+.then(response => response.json())
+.then(data => {
+    console.log('Alle Einstellungen geladen:', data);
+    // data ist ein Array von Objekten, z.B. [{ id: '1', selectedColor: 'blue' }, ...]
+});
+
+//eintrag updaten
+const updatedColor = {
+    selectedColor: 'red' // Nur dieses Feld ändern
+};
+
+fetch(apiUrl, {
+    method: 'PUT', // Oder PATCH
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedColor)
+})
+.then(response => response.json())
+.then(data => {
+    console.log('Einstellung erfolgreich aktualisiert:', data);
+});
+
+
+
+
+
+
+
 //1. TEIL
        function schichtZuEndeja() {
       const messageDiv = document.getElementById("schichtZuEndeneinMessage");
@@ -51,11 +102,6 @@
   <img class="furinaBackToWork" src="images/furina-angry.jpg" alt="furina" height="300px" width="300px">
   <button class="backToWork" onclick="window.location.href='Geschirrspüler-Projekt.html'">Back to work!</button> `;
     }    
-
-
-
-
-
 
 
 
@@ -122,9 +168,6 @@ document.addEventListener('change', function(event) {
         }
     }
 });
-
-
-
 
 
 
@@ -259,8 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGifVisibility(false);
     showVideo(isPlaying);
 });
-
-
 
 
 
@@ -532,21 +573,3 @@ if (secondFreePullButton) {
 //https://jojokitten.github.io/ultimativesGeschirrProjekt/genshin.html
 
 
-//mockAPI
-const apiUrl = 'https://6920e6b5512fb4140bdec336.mockapi.io/api/:endpoint'; 
-
-const selectionData = {
-    userId: 123,
-    selectedColor: 'green',
-    timestamp: new Date().toISOString()
-};
-
-fetch(apiUrl, {
-    method: 'POST', // Methode: Sende neue Daten
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(selectionData)
-})
-.then(response => response.json())
-.then(data => {
-    console.log('Neue Auswahl gespeichert mit ID:', data.id);
-});
