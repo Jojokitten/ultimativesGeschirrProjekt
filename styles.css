@@ -149,7 +149,7 @@ z-index: 220;
   width: 1220px; /* Bleibt quadratisch */
   height: 65px; /* Wird höher für den Text */
   border-radius: 15px; /* Leicht abgerundete Ecken */
-z-index: 201;}
+z-index: 220;}
 .delete:hover .svgIcon {
   transform: translateY(8px); /* Bewegt Icon nach unten */}
 .delete::before {
