@@ -388,7 +388,7 @@ button.startGeschirrspühlsession{
   width: 500px;
   font-size: 25px;
   color: rgb(108, 5, 38);
-  z-index: 20;
+  z-index: 220;
  transition: 0.4s;
 text-shadow: 2px 2px 3px rgb(136 0 136 / 50%);
   background: linear-gradient(
