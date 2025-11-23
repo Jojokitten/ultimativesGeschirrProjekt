@@ -520,4 +520,7 @@ if (secondFreePullButton && !secondFreePullUsed) {
     }, 2000);
     localStorage.setItem('secondFreePullUsed', 'true');
   });
+    
+} else if (firstFreePullButton && freePullUsed) {
+    firstFreePullButton.style.display = 'none';
 }
