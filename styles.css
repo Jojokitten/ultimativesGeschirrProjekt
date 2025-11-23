@@ -460,7 +460,7 @@ left: 380px;}
 #phoneMainMenue {
   display: none;
 }
-@media (max-width: 10000px) {
+@media (max-width: 400px) {
   #phoneMainMenue {
     display: block;
     position: fixed; 
