@@ -30,10 +30,6 @@ fetch(apiUrl) // Methode ist standardmäßig GET
 });
 
 //eintrag updaten
-const updatedColor = {
-    selectedColor: 'red' // Nur dieses Feld ändern
-};
-
 fetch(apiUrl, {
     method: 'PUT', // Oder PATCH
     headers: { 'Content-Type': 'application/json' },
@@ -44,7 +40,87 @@ fetch(apiUrl, {
     console.log('Einstellung erfolgreich aktualisiert:', data);
 });
 
+//profil
+document.addEventListener("DOMContentLoaded", () => {
+    const currentPic = document.getElementById("currentProfilePic");
+    const addBtn = document.getElementById("addProfilePic");
+    
+    const picsContainer = document.querySelector(".profilbild-wrapper .profilbilder"); 
+    const bilder = Array.from(picsContainer.querySelectorAll("img")); 
+    const nameInput = document.getElementById("profilname");
+    const spiritSelect = document.getElementById("spirit");
+    const saveBtn = document.getElementById("saveProfil");
 
+    const savedPic = localStorage.getItem("profilbild");
+    const savedName = localStorage.getItem("profilname");
+    const savedSpirit = localStorage.getItem("spirit");
+
+ 
+    if (savedPic) {
+        currentPic.src = savedPic; // Lade den GESPEICHERTEN Pfad (z.B. "images/furinaProfilepicture.webp")
+        
+        // Finde das gespeicherte Bild in der Auswahl, um es zu markieren
+        bilder.forEach(b => {
+            // Vergleicht den gespeicherten Pfad (savedPic) mit dem src des Auswahlbildes
+            b.classList.toggle("selected", b.src === savedPic);
+        });
+    } else {
+        // Wenn nichts gespeichert ist, stelle sicher, dass das Standardbild geladen wird.
+        currentPic.src = "images/L-Profile.jpg";
+    }
+
+    // Profilname laden
+    if (savedName) {
+        nameInput.value = savedName;
+    }
+
+    // Spirit laden (mit Überprüfung, ob die Option existiert)
+    if (savedSpirit) {
+        const optionExists = Array.from(spiritSelect.options).some(o => o.value === savedSpirit);
+        if (optionExists) {
+            spiritSelect.value = savedSpirit;
+        }
+    }
+
+
+    addBtn.addEventListener("click", () => {
+        if (picsContainer) {
+            picsContainer.style.display = "block";
+        }
+    });
+
+    // FIX: Klick-Handler für jedes auswählbare Profilbild
+    bilder.forEach(bild => {
+        bild.addEventListener("click", () => {
+            // 1. Markierung setzen
+            bilder.forEach(b => b.classList.remove("selected"));
+            bild.classList.add("selected");
+            
+            // 2. Speichern und Anzeigen des ausgewählten Bildes
+            const selectedSrc = bild.src; // Holt den vollen Pfad
+            localStorage.setItem("profilbild", selectedSrc); // Speichert den vollen Pfad
+            currentPic.src = selectedSrc;
+            
+            // 3. Container schließen
+            if (picsContainer) {
+                 picsContainer.style.display = "none";
+            }
+        });
+    });
+
+    // Klick-Handler für den Speichern-Button
+    saveBtn.addEventListener("click", () => {
+        // Speichert Name und Spirit
+        localStorage.setItem("profilname", nameInput.value.trim() || "");
+        localStorage.setItem("spirit", spiritSelect.value || "");
+        
+        const updatedTitle = {
+            selectedTitle: ' ' 
+};
+
+        alert("Profil gespeichert!");
+    });
+});
 
 
 
