@@ -270,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 //PrimoCount
+// src/js/wish-system.js
 const primoText = document.querySelectorAll('.totalPrimosJavatext');
 const getMoreButton = document.querySelector('.getMore');
 const secondGetMoreButton = document.querySelector('.secondGetMore');
@@ -282,245 +283,248 @@ const secondTenPull = document.querySelectorAll('.secondTenPull');
 const firstOnePull = document.querySelectorAll('.onePull');
 const secondOnePull = document.querySelectorAll('.secondOnePull');
 
-    
-  let primoCount = parseInt(localStorage.getItem('primoCount'), 10) || 0;
-  let pity = Number.isNaN(parseInt(localStorage.getItem('pity'))) ? 0 : parseInt(localStorage.getItem('pity'));
-  let guaranteed = localStorage.getItem('guaranteed') === 'true';
-  let currentBanner = localStorage.getItem('currentBanner') || "first";
+let primoCount = parseInt(localStorage.getItem('primoCount'), 10) || 0;
+let savedPity = parseInt(localStorage.getItem('pity'), 10);
+let pity = Number.isNaN(savedPity) ? 0 : savedPity;
+let guaranteed = localStorage.getItem('guaranteed') === 'true';
+let currentBanner = localStorage.getItem('currentBanner') || "first";
 
-    
-    const FIVE_RATE = 0.006;
-    const FOUR_RATE = 0.051;    
-    const featured5_firstBanner = "yae";
-    const featured5_secondBanner = "tartaglia";
+const FIVE_RATE = 0.006;
+const FOUR_RATE = 0.051;
+const featured5_firstBanner = "yae";
+const featured5_secondBanner = "tartaglia";
 
-    const wishAnimation = {
-        five: "playlist/5StarWishAnimation.mp4",
-        four: "playlist/4StarWishAnimation.mp4",
-        three: "playlist/3StarWishAnimation.mp4",
-        yae: "playlist/yaeWhisAnimationC0.mp4",
-        tartaglia: "playlist/tartagliawhisAnimationC0.mp4",
-        qiqi: "playlist/qiqiWishAnimationC0.mp4",
-        minni: "playlist/minniC0.mp4"
-    };
+const wishAnimation = {
+  five: "playlist/5StarWishAnimation.mp4",
+  four: "playlist/4StarWishAnimation.mp4",
+  three: "playlist/3StarWishAnimation.mp4",
+  yae: "playlist/yaeWhisAnimationC0.mp4",
+  tartaglia: "playlist/tartagliawhisAnimationC0.mp4",
+  qiqi: "playlist/qiqiWishAnimationC0.mp4",
+  minni: "playlist/minniC0.mp4"
+};
 
-    if (wishVideoPlayer) wishVideoPlayer.pause();
-    
-    function updateInventar() {
-        console.log("Inventar wurde aktualisiert.");
+if (wishVideoPlayer) wishVideoPlayer.pause();
 
-    } 
-    function primoUpdateText() {
-        primoText.forEach(e => e.innerHTML = `insgesamt:<br>${primoCount}`);
-        localStorage.setItem('primoCount', primoCount);
-        localStorage.setItem('pity', pity);
-        localStorage.setItem('guaranteed', guaranteed);
-        localStorage.setItem('currentBanner', currentBanner);
-    }        primoUpdateText(); 
+function updateInventar() {
+  // Platzhalter — implementiere Inventar-Update hier
+  console.log("Inventar wurde aktualisiert.");
+}
 
-        
-    
-    function calcSingleRarity() {
-        
-        const fiveStarRate = pity >= 74 ? FIVE_RATE * (1 + (pity - 73) * 10) : FIVE_RATE;
-        
-        const j = Math.random();
+function primoUpdateText() {
+  primoText.forEach(e => e.innerHTML = `insgesamt:<br>${primoCount}`);
+  localStorage.setItem('primoCount', String(primoCount));
+  localStorage.setItem('pity', String(pity));
+  localStorage.setItem('guaranteed', String(guaranteed));
+  localStorage.setItem('currentBanner', currentBanner);
+}
+primoUpdateText();
 
-        if (j < fiveStarRate) return 5;
-        
-        if (pity % 10 === 9) return 4; 
-        
-        if (j < FIVE_RATE + FOUR_RATE) return 4;
-        return 3;
+function getFiveStarForCurrentBanner() {
+  return currentBanner === "first" ? featured5_firstBanner : featured5_secondBanner;
+}
+
+// Berechnet Rarity anhand des aktuellen pity (ändert pity nicht).
+function calcSingleRarity() {
+  // erhöhte Rate nach 74 pulls (soft pity scaling). clamp bei 1.
+  const fiveStarRate = pity >= 74 ? Math.min(1, FIVE_RATE * (1 + (pity - 73) * 10)) : FIVE_RATE;
+  const j = Math.random();
+
+  if (j < fiveStarRate) return 5;
+  // 10-pull 4★ pity: wenn pity % 10 === 9 (d.h. nächster Pull ist 10., dann mindestens 4★)
+  if (pity % 10 === 9) return 4;
+  if (j < fiveStarRate + FOUR_RATE) return 4;
+  return 3;
+}
+
+// Liefert Char-Name bei 5★, setzt pity=0, handhabt "guaranteed".
+function calcCharacter(rarity) {
+  if (rarity !== 5) {
+    return null;
+  }
+
+  // Reset pity because 5★ obtained
+  pity = 0;
+
+  if (guaranteed) {
+    guaranteed = false;
+    return getFiveStarForCurrentBanner();
+  }
+
+  const win = Math.random() < 0.5;
+  if (win) {
+    return getFiveStarForCurrentBanner();
+  }
+
+  guaranteed = true;
+  return Math.random() < 0.5 ? "qiqi" : "minni";
+}
+
+function playWishAnimation(rarity, charName) {
+  if (!wishVideoPlayer) return;
+  let src = "";
+
+  if (rarity === 5 && charName && wishAnimation[charName]) {
+    src = wishAnimation[charName];
+  } else if (rarity === 4) {
+    src = wishAnimation["four"];
+  } else {
+    src = wishAnimation["three"];
+  }
+
+  wishVideoPlayer.src = src;
+  wishVideoPlayer.style.display = 'block';
+  wishVideoPlayer.load();
+  wishVideoPlayer.play();
+
+  wishVideoPlayer.onended = () => {
+    wishVideoPlayer.style.display = 'none';
+  };
+}
+
+if (getMoreButton && secondGetMoreButton) {
+  const handleNavigation = () => {
+    window.location.href = "statistic.html";
+  };
+  getMoreButton.addEventListener('click', handleNavigation);
+  secondGetMoreButton.addEventListener('click', handleNavigation);
+}
+
+let obtainedCharacter = null;
+
+function handleSinglePull(banner) {
+  if (primoCount <= 0) {
+    primoText.forEach(el => {
+      el.style.color = "red";
+      setTimeout(() => el.style.color = "", 1200);
+    });
+    return;
+  }
+
+  currentBanner = banner;
+
+  const rarity = calcSingleRarity();
+  let charName = null;
+
+  if (rarity === 5) {
+    // calcCharacter setzt pity = 0 intern
+    charName = calcCharacter(5);
+  } else {
+    // kein 5★ → pity erhöht sich um 1
+    pity++;
+  }
+
+  primoCount--;
+
+  // Update obtainedCharacter mapping (Beispiel)
+  if (rarity === 5 && charName) {
+    if (charName === "yae") {
+      obtainedCharacter = "pullYae";
+    } else if (charName === "alhaitham") {
+      obtainedCharacter = "pullAlhatham";
+    } else {
+      obtainedCharacter = `pull_${charName}`;
     }
-    
-    function getFiveStarForCurrentBanner() {
-        return currentBanner === "first" ? featured5_firstBanner : featured5_secondBanner;
+  }
+
+  playWishAnimation(rarity, charName);
+  primoUpdateText();
+  updateInventar();
+}
+
+function handleTenPull(banner) {
+  if (primoCount < 10) {
+    primoText.forEach(el => {
+      el.style.color = "red";
+      setTimeout(() => el.style.color = "", 1200);
+    });
+    return;
+  }
+
+  currentBanner = banner;
+
+  // Ergebnisse speichern als Objekte {rarity, name}
+  const results = [];
+  let hasRare = false;
+  const obtainedFiveNames = [];
+
+  for (let i = 0; i < 10; i++) {
+    const rarity = calcSingleRarity();
+    if (rarity === 5) {
+      const name = calcCharacter(5); // setzt pity = 0
+      results.push({ rarity: 5, name });
+      hasRare = true;
+      obtainedFiveNames.push(name);
+    } else {
+      // 4★ oder 3★
+      // Wenn calcSingleRarity zurückgibt 4, name bleibt null (4★ placeholders)
+      results.push({ rarity, name: null });
+      // pity nur erhöhen, wenn kein 5★
+      pity++;
+      if (rarity >= 4) hasRare = true;
     }
-    
-    function calcCharacter(rarity) {
-        if (rarity !== 5) {            
-            return "4star_placeholder"; 
-        }
+  }
 
-        pity = 0; 
-
-        if (guaranteed) {
-            guaranteed = false;
-            return getFiveStarForCurrentBanner(); 
-        }
-
-        const win = Math.random() < 0.5; 
-
-        if (win) {
-            return getFiveStarForCurrentBanner(); 
-      }
-             
-        guaranteed = true;
-        
-        return Math.random() < 0.5 ? "qiqi" : "minni"; 
+  // Falls kein 4★/5★ in 10er, erzwinge 4★ an erster 3★-Stelle
+  if (!hasRare) {
+    const idx = results.findIndex(r => r.rarity === 3);
+    if (idx !== -1) {
+      results[idx] = { rarity: 4, name: null };
+      hasRare = true;
+      // 4★ erzwingen verändert pity nicht (nur 5★ setzt pity = 0)
     }
-    
-    function calcTenPull() {
-        let results = [];
-        let hasRare = false;
+  }
 
-        for (let i = 0; i < 10; i++) { 
-            const currentRarity = calcSingleRarity();
-            results.push(currentRarity);
-            if (currentRarity >= 4) hasRare = true;
-        }
+  const highestRarity = Math.max(...results.map(r => r.rarity));
+  const firstFiveName = obtainedFiveNames.length > 0 ? obtainedFiveNames[0] : null;
 
-        
-        
-        if (!hasRare) {
-            const index = results.indexOf(3);
-            if (index !== -1) {
-                results[index] = 4;
-            }
-        }
-        return results;
-    }
+  primoCount -= 10;
 
-    
-    function playWishAnimation(rarity, charName) {
-      if (!wishVideoPlayer) return;
-      
-        let src = "";
-              
-        if (rarity === 5 && wishAnimation[charName]) {
-            src = wishAnimation[charName];
-        }
-        
-        else if (rarity === 4) {
-            src = wishAnimation["four"];
-        } 
-        
-        else {
-            src = wishAnimation["three"];
-        }
+  playWishAnimation(highestRarity, firstFiveName);
+  primoUpdateText();
+  updateInventar();
+}
 
-        wishVideoPlayer.src = src;
-        wishVideoPlayer.style.display = 'block';
-        wishVideoPlayer.load();
-        wishVideoPlayer.play();
+// Eventlisteners
+firstOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("first")));
+firstTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("first")));
+secondOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("second")));
+secondTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("second")));
 
-        
-        wishVideoPlayer.onended = () => {
-            wishVideoPlayer.style.display = 'none';
-        };
-    }
-
-    
-    
-    
-
-    
-    if (getMoreButton && secondGetMoreButton) {
-        const handleNavigation = () => {
-            window.location.href = "statistic.html";
-        };
-        getMoreButton.addEventListener('click', handleNavigation);
-        secondGetMoreButton.addEventListener('click', handleNavigation);
-    }
-
-
-    let obtainedCharacter = null;
-    
-    function handleSinglePull(banner) {
-            if (primoCount > 0) {
-                currentBanner = banner;
-    
-                const rarity = calcSingleRarity();
-                let charName = (rarity === 5) ? calcCharacter(rarity) : null;
-                
-                ++pity;
-                --primoCount;
-    
-                // Update obtainedCharacter if a 5-star character is obtained
-                if (rarity === 5 && charName) {
-                    if (charName === "yae") {
-                        obtainedCharacter = "pullYae";
-                    } else if (charName === "alhaitham") {
-                        obtainedCharacter = "pullAlhatham";
-                    }
-                }
-                
-                playWishAnimation(rarity, charName);
-                primoUpdateText();
-                updateInventar();
-    
-            } else {
-                primoText.forEach(el => {
-                    el.style.color = "red";
-                    setTimeout(() => el.style.color = "", 1200);
-                });
-            }
-        }
-
-    function handleTenPull(banner) {
-        if (primoCount >= 10) {
-            currentBanner = banner;
-
-            const results = calcTenPull();
-            const highestRarity = Math.max(...results); 
-            
-            
-            let charName = (highestRarity === 5) ? calcCharacter(5) : null;
-            
-            pity += 10;
-            primoCount -= 10;
-            
-            playWishAnimation(highestRarity, charName);
-            primoUpdateText();
-            updateInventar();
-
-        } else {
-            primoText.forEach(el => {
-                el.style.color = "red";
-                
-                setTimeout(() => el.style.color = "", 1200); 
-            });
-        }
-    }    
-    
-    
-    firstOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("first")));
-    firstTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("first")));    
-    
-    secondOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("second")));
-    secondTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("second")));
-
-
-
-
-// LOCAL STORAGE!!!! :)
-
+// LOCAL STORAGE Free Pulls
 let freePullUsed = localStorage.getItem('freePullUsed') === 'true';
 let secondFreePullUsed = localStorage.getItem('secondFreePullUsed') === 'true';
 
-
-
-if (firstFreePullButton && !freePullUsed) {
+if (firstFreePullButton) {
+  if (!freePullUsed) {
     firstFreePullButton.addEventListener('click', () => {
-    firstFreePullButton.style.animation = 'freePullDrop 2s forwards';
-    setTimeout(() => { primoCount += 10;     primoUpdateText();}, 2000);
-    localStorage.setItem('freePullUsed', 'true');
-  });
-} else if (firstFreePullButton && freePullUsed) {
+      firstFreePullButton.style.animation = 'freePullDrop 2s forwards';
+      setTimeout(() => {
+        primoCount += 10;
+        primoUpdateText();
+      }, 2000);
+      localStorage.setItem('freePullUsed', 'true');
+      freePullUsed = true;
+    });
+  } else {
     firstFreePullButton.style.display = 'none';
+  }
 }
-if (secondFreePullButton && !secondFreePullUsed) {
-  secondFreePullButton.addEventListener('click', () => {
-    secondFreePullButton.style.animation = 'secondFreePullDrop 2s forwards';
-    setTimeout(() => {
-      primoCount += 10;
-      primoUpdateText();
-      updateInventar();
-    }, 2000);
-    localStorage.setItem('secondFreePullUsed', 'true');
-  });
-    
-} else if (firstFreePullButton && freePullUsed) {
-    firstFreePullButton.style.display = 'none';
+
+if (secondFreePullButton) {
+  if (!secondFreePullUsed) {
+    secondFreePullButton.addEventListener('click', () => {
+      secondFreePullButton.style.animation = 'secondFreePullDrop 2s forwards';
+      setTimeout(() => {
+        primoCount += 10;
+        primoUpdateText();
+        updateInventar();
+      }, 2000);
+      localStorage.setItem('secondFreePullUsed', 'true');
+      secondFreePullUsed = true;
+    });
+  } else {
+    secondFreePullButton.style.display = 'none';
+  }
 }
+
