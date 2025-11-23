@@ -1,52 +1,15 @@
-
-//mockAPI
-const apiUrl = 'https://6920e6b5512fb4140bdec336.mockapi.io/api/:endpoint'; 
-
-const selectionData = {
-    userId: 123,
-    selectedColor: 'none',
-    timestamp: new Date().toISOString()
-};
-
-fetch(apiUrl, {
-    method: 'POST', 
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(selectionData)
-})
-.then(response => response.json())
-.then(data => {
-    console.log('Neue Auswahl gespeichert mit ID:', data.id);
-});
+//https://jojokitten.github.io/ultimativesGeschirrProjekt/genshin.html
 
 
-
-//alle einträge laden
-
-fetch(apiUrl) // Methode ist standardmäßig GET
-.then(response => response.json())
-.then(data => {
-    console.log('Alle Einstellungen geladen:', data);
-    // data ist ein Array von Objekten, z.B. [{ id: '1', selectedColor: 'blue' }, ...]
-});
-
-//eintrag updaten
-fetch(apiUrl, {
-    method: 'PUT', // Oder PATCH
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedColor)
-})
-.then(response => response.json())
-.then(data => {
-    console.log('Einstellung erfolgreich aktualisiert:', data);
-});
-
-//profil
 document.addEventListener("DOMContentLoaded", () => {
+
+    const apiUrl = 'https://6920e6b5512fb4140bdec336.mockapi.io/api/geschirrspueler-ausraeumungen'; 
+    const CURRENT_USER_ID = "user_12345"; 
+
     const currentPic = document.getElementById("currentProfilePic");
     const addBtn = document.getElementById("addProfilePic");
-    
     const picsContainer = document.querySelector(".profilbild-wrapper .profilbilder"); 
-    const bilder = Array.from(picsContainer.querySelectorAll("img")); 
+    const bilder = Array.from(picsContainer ? picsContainer.querySelectorAll("img") : []); 
     const nameInput = document.getElementById("profilname");
     const spiritSelect = document.getElementById("spirit");
     const saveBtn = document.getElementById("saveProfil");
@@ -55,26 +18,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedName = localStorage.getItem("profilname");
     const savedSpirit = localStorage.getItem("spirit");
 
- 
-    if (savedPic) {
-        currentPic.src = savedPic; // Lade den GESPEICHERTEN Pfad (z.B. "images/furinaProfilepicture.webp")
+    function displayMessage(message, isError = false) {
+        console.log(isError ? "FEHLER: " + message : "ERFOLG: " + message);
         
-        // Finde das gespeicherte Bild in der Auswahl, um es zu markieren
+    }
+
+    // --- Initialisierung ---
+    if (savedPic) {
+        currentPic.src = savedPic; 
         bilder.forEach(b => {
-            // Vergleicht den gespeicherten Pfad (savedPic) mit dem src des Auswahlbildes
-            b.classList.toggle("selected", b.src === savedPic);
+            // Wichtig: Toggle Klasse nur, wenn das Bild im Container existiert
+            if (b.src) b.classList.toggle("selected", b.src === savedPic);
         });
     } else {
-        // Wenn nichts gespeichert ist, stelle sicher, dass das Standardbild geladen wird.
         currentPic.src = "images/L-Profile.jpg";
     }
 
-    // Profilname laden
     if (savedName) {
         nameInput.value = savedName;
     }
 
-    // Spirit laden (mit Überprüfung, ob die Option existiert)
     if (savedSpirit) {
         const optionExists = Array.from(spiritSelect.options).some(o => o.value === savedSpirit);
         if (optionExists) {
@@ -89,36 +52,62 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // FIX: Klick-Handler für jedes auswählbare Profilbild
+    // Klick-Handler für jedes auswählbare Profilbild
     bilder.forEach(bild => {
         bild.addEventListener("click", () => {
-            // 1. Markierung setzen
             bilder.forEach(b => b.classList.remove("selected"));
             bild.classList.add("selected");
             
-            // 2. Speichern und Anzeigen des ausgewählten Bildes
-            const selectedSrc = bild.src; // Holt den vollen Pfad
-            localStorage.setItem("profilbild", selectedSrc); // Speichert den vollen Pfad
+            const selectedSrc = bild.src; 
+            localStorage.setItem("profilbild", selectedSrc); 
             currentPic.src = selectedSrc;
             
-            // 3. Container schließen
             if (picsContainer) {
                  picsContainer.style.display = "none";
             }
         });
     });
 
-    // Klick-Handler für den Speichern-Button
+    // --- 🚀 Klick-Handler für den Speichern-Button (MockAPI-Integration) ---
     saveBtn.addEventListener("click", () => {
-        // Speichert Name und Spirit
-        localStorage.setItem("profilname", nameInput.value.trim() || "");
-        localStorage.setItem("spirit", spiritSelect.value || "");
+        // 1. Daten sammeln
+        const selectedPicUrl = localStorage.getItem("profilbild") || "images/L-Profile.jpg";
+        const newName = nameInput.value.trim();
+        const newSpirit = spiritSelect.value;
         
-        const updatedTitle = {
-            selectedTitle: ' ' 
-};
+        // Speichert Name und Spirit (Local Storage als Fallback/Backup)
+        localStorage.setItem("profilname", newName);
+        localStorage.setItem("spirit", newSpirit);
 
-        alert("Profil gespeichert!");
+        const profileData = {
+            userId: CURRENT_USER_ID,
+            profileName: newName,
+            selectedSpirit: newSpirit,
+            profilePicUrl: selectedPicUrl,
+            lastUpdated: new Date().toISOString()
+        };
+
+        // 2. Daten an MockAPI senden (POST, da wir immer einen neuen Eintrag erstellen)
+        fetch(apiUrl, {
+            method: 'POST', 
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(profileData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Netzwerkfehler: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayMessage(`Profil erfolgreich in MockAPI gespeichert. ID: ${data.id}`);
+            console.log('MockAPI Antwort:', data);
+        })
+        .catch(error => {
+            displayMessage(`Speichern fehlgeschlagen: ${error.message}`, true);
+        });
     });
 });
 
