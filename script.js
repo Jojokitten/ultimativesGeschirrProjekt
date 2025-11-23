@@ -253,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
     if (nextBtn) nextBtn.addEventListener('click', playNextSong);
     if (prevBtn) prevBtn.addEventListener('click', playPreviousSong);
-    videoPlayer.addEventListener('ended', () => navigateSong('next'));
 
 
     loadSong(currentSongIndex);
@@ -528,3 +527,26 @@ if (secondFreePullButton) {
   }
 }
 
+
+
+//https://jojokitten.github.io/ultimativesGeschirrProjekt/genshin.html
+
+
+//mockAPI
+const apiUrl = 'https://6920e6b5512fb4140bdec336.mockapi.io/api/:endpoint'; 
+
+const selectionData = {
+    userId: 123,
+    selectedColor: 'green',
+    timestamp: new Date().toISOString()
+};
+
+fetch(apiUrl, {
+    method: 'POST', // Methode: Sende neue Daten
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(selectionData)
+})
+.then(response => response.json())
+.then(data => {
+    console.log('Neue Auswahl gespeichert mit ID:', data.id);
+});
