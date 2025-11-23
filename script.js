@@ -497,14 +497,11 @@ const secondOnePull = document.querySelectorAll('.secondOnePull');
                 setTimeout(() => el.style.color = "", 1200); 
             });
         }
-    }
-
-    
+    }    
     
     
     firstOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("first")));
-    firstTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("first")));
-    
+    firstTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("first")));    
     
     secondOnePull.forEach(btn => btn.addEventListener("click", () => handleSinglePull("second")));
     secondTenPull.forEach(btn => btn.addEventListener("click", () => handleTenPull("second")));
@@ -512,11 +509,10 @@ const secondOnePull = document.querySelectorAll('.secondOnePull');
 
 
 
-
 // LOCAL STORAGE!!!! :)
 
-let freePullUsed = localStorage.getItem('freePullUsed') !== 'true';
-let secondFreePullUsed = localStorage.getItem('secondFreePullUsed') !== 'true';
+let freePullUsed = localStorage.getItem('freePullUsed') == 'true';
+let secondFreePullUsed = localStorage.getItem('secondFreePullUsed') == 'true';
 
 
 
