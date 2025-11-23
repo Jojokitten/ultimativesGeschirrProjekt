@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    const FurinaPlaylistGif2 = document.querySelector('.2FurinaGif');
+    const FurinaPlaylistGif2 = document.getElementById('2FurinaGif');
     const furinaPlaylistGif = document.querySelector('.tenor-gif-embed');
    
     let currentSongIndex = 0;
@@ -283,8 +283,8 @@ const firstOnePull = document.querySelectorAll('.onePull');
 const secondOnePull = document.querySelectorAll('.secondOnePull');
 
     
-  let primoCount = parseInt(localStorage.getItem('primoCount')) || 0;
-  let pity = parseInt(localStorage.getItem('pity')) || 0;
+  let primoCount = parseInt(localStorage.getItem('primoCount'), 10) || 0;
+  let pity = Number.isNaN(parseInt(localStorage.getItem('pity'))) ? 0 : parseInt(localStorage.getItem('pity'));
   let guaranteed = localStorage.getItem('guaranteed') === 'true';
   let currentBanner = localStorage.getItem('currentBanner') || "first";
 
@@ -308,22 +308,7 @@ const secondOnePull = document.querySelectorAll('.secondOnePull');
     
     function updateInventar() {
         console.log("Inventar wurde aktualisiert.");
-        // CharacterInventar logic
-        const yaeNotRecivedImg = document.querySelector('.1yaeMikoImg');
-        const yaeRecivedImg = document.querySelector('.2yaeMikoImg');
-        const alhaithamNotRecivedImg = document.querySelector('.1alhathamImg');
-        const AlhaithamRecivedImg = document.querySelector('.2alhathamImg');
 
-        if (typeof obtainedCharacter !== "undefined") {
-            if (obtainedCharacter === "pullYae") {
-                if (yaeNotRecivedImg) yaeNotRecivedImg.style.display = 'none';
-                if (yaeRecivedImg) yaeRecivedImg.style.display = 'block';
-            }
-            if (obtainedCharacter === "pullAlhatham") {
-                if (alhaithamNotRecivedImg) alhaithamNotRecivedImg.style.display = 'none';
-                if (AlhaithamRecivedImg) AlhaithamRecivedImg.style.display = 'block';
-            }
-        }
     } 
     function primoUpdateText() {
         primoText.forEach(e => e.innerHTML = `insgesamt:<br>${primoCount}`);
@@ -511,8 +496,8 @@ const secondOnePull = document.querySelectorAll('.secondOnePull');
 
 // LOCAL STORAGE!!!! :)
 
-let freePullUsed = localStorage.getItem('freePullUsed') == 'true';
-let secondFreePullUsed = localStorage.getItem('secondFreePullUsed') == 'true';
+let freePullUsed = localStorage.getItem('freePullUsed') === 'true';
+let secondFreePullUsed = localStorage.getItem('secondFreePullUsed') === 'true';
 
 
 
@@ -528,14 +513,11 @@ if (firstFreePullButton && !freePullUsed) {
 if (secondFreePullButton && !secondFreePullUsed) {
   secondFreePullButton.addEventListener('click', () => {
     secondFreePullButton.style.animation = 'secondFreePullDrop 2s forwards';
-    const AlhaithamRecivedImg = document.querySelector('.2alhathamImg');
-
-    if (typeof obtainedCharacter !== "undefined" && obtainedCharacter === "pullYae") {
-      if (yaeNotRecivedImg) yaeNotRecivedImg.style.display = 'none';
-      if (yaeRecivedImg) yaeRecivedImg.style.display = 'block';
-    }
-    if (typeof obtainedCharacter !== "undefined" && obtainedCharacter === "pullAlhatham") {
-      if (alhaithamNotRecivedImg) alhaithamNotRecivedImg.style.display = 'none';
-      if (AlhaithamRecivedImg) AlhaithamRecivedImg.style.display = 'block';
-    };});
+    setTimeout(() => {
+      primoCount += 10;
+      primoUpdateText();
+      updateInventar();
+    }, 2000);
+    localStorage.setItem('secondFreePullUsed', 'true');
+  });
 }
