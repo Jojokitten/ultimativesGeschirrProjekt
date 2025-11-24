@@ -134,7 +134,7 @@ color: #e62689;}
   overflow: hidden;
   position: fixed;
   right: 20px;
-  top: 20px;
+  top: 60px;
   flex-direction: column; /* Ändert die Richtung auf vertikal */
   gap: 2px; /* Abstand zwischen Text und Icon */
 z-index: 220;
@@ -145,7 +145,7 @@ z-index: 220;
 .svgIcon path {
   fill: white;
 }
-.delete:hover,startGeschirrspühlsession {
+.delete:hover {
   width: 1220px; /* Bleibt quadratisch */
   height: 65px; /* Wird höher für den Text */
   border-radius: 15px; /* Leicht abgerundete Ecken */
@@ -218,8 +218,8 @@ img.catTimeGif{
   border:#d71c79 5px solid;
   border-radius: 20px;}
 img.nyancatProfile{
-  position: relative;
-  top: -150px;
+  position: absolute;
+  top: 50px;
   left: -20px;
     height: 300px;
   width: 300px;
@@ -384,7 +384,7 @@ button.startGeschirrspühlsession{
   position: relative;
   top: -498px;
   height: 40px;
-  left: 630px;
+  left: 750px;
   width: 500px;
   font-size: 25px;
   color: rgb(108, 5, 38);
@@ -445,10 +445,12 @@ button.startGeschirrspühlsession:hover {
     background-color: #a3357e; /* Dunkleres Rosa beim Hover */}
 .control-btn:active {
     transform: scale(0.95);}
-div.tenor-gif-embed {
-height: 200px;
+.FurinaGifStyle{
+height: 2000px;
+width: auto;
 margin-top: 20px;
-visibility: hidden;}
+visibility: hidden;
+z-index: 300;}
 #videoPlayer {
 height: 270px;
 border-radius: 20px;

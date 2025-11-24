@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const spiritSelect = document.getElementById("spirit");
     const saveBtn = document.getElementById("saveProfil");
 
-    const savedPic = localStorage.getItem("profilbild");
+    const savedPic = localStorage.getItem("profilbilder");
     const savedName = localStorage.getItem("profilname");
     const savedSpirit = localStorage.getItem("spirit");
 
@@ -218,29 +218,16 @@ document.addEventListener('click', function(event) {
         return;
     }
 });
-document.addEventListener('change', function(event) {
-    if (event.target && event.target.id === 'file') {
-        const fileInput = event.target;
-        const file = fileInput.files && fileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imageUrl = e.target.result;
-                localStorage.setItem("uploadedGeschirrspulerImage", imageUrl);
-                alert("Image uploaded successfully!");
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-});
 
 
 
 
-//PLAYLIST
+
+//mit api zählen welches lied man am häufigsten gehört hat
+//PLAYLIST 
 document.addEventListener('DOMContentLoaded', () => {
-     const playlist = [
-         { index: 0, title: "Tolles Lied 1", src: "playlist/kafka.mp4" },
+    const playlist = [
+        { index: 0, title: "Tolles Lied 1", src: "playlist/kafka.mp4" },
         { title: "Ganz Tolles Billie Eilish Lied", src: "playlist/ilomilo.mp4" },
         { title: "Kaffee", src: "playlist/Espresso.mp4" } 
     ];
@@ -250,121 +237,95 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseBtn = document.getElementById('playPauseBtn');
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
+    
+    // Null-Check am Anfang
+    if (!videoPlayer) {
+        console.warn('videoPlayer-Element nicht gefunden.');
+        return;
+    }
 
-
-
-    const FurinaPlaylistGif2 = document.getElementById('2FurinaGif');
-    const furinaPlaylistGif = document.querySelector('.tenor-gif-embed');
+    const FurinaGif = document.querySelector('.FurinaGif2');
+    const furinaVideo1 = document.querySelector('.FurinaGif1');
    
     let currentSongIndex = 0;
+    let isPlaying = false; // WICHTIG: das war auch nicht definiert!
 
-    const updateGifVisibility = (isCurrentlyPlaying) => {
-        if (!furinaPlaylistGif) return;
-
+    const updateFurinaVisibility = (isCurrentlyPlaying) => {
+        if (!furinaVideo1) return;
         const isEspresso = currentSongIndex === 2; 
         const isFurina = currentSongIndex === 4;
-
         if (isEspresso && isCurrentlyPlaying) {
-            furinaPlaylistGif.style.visibility = 'visible';
+            furinaVideo1.style.visibility = 'visible';
             videoPlayer.style.opacity = "0.1";
         } else {
-            furinaPlaylistGif.style.visibility = 'hidden';
+            furinaVideo1.style.visibility = 'hidden';
             videoPlayer.style.opacity = "0.5";
         }
-        if (isFurina && isCurrentlyPlaying) {
-            FurinaPlaylistGif2.style.visibility = 'visible';
+        if (isFurina && isCurrentlyPlaying && FurinaGif) {
+            FurinaGif.style.visibility = 'visible';
         }
-
     };
 
     const showVideo = (isCurrentlyPlaying) => {
-        if (!videoPlayer) return;
-
-        if ( isCurrentlyPlaying) {
-            videoPlayer.style.visibility = 'visible';
-        } else {
-            videoPlayer.style.visibility = 'hidden';
-        }
-    }
-
+        videoPlayer.style.visibility = isCurrentlyPlaying ? 'visible' : 'hidden';
+    };
 
     const loadSong = (index) => {
         const song = playlist[index];
         videoPlayer.src = song.src;
         songTitleDisplay.textContent = song.title;
-
         videoPlayer.load();
-        updateGifVisibility(isPlaying);
+        updateFurinaVisibility(isPlaying);
     };
 
     const togglePlayPause = () => {
         if (isPlaying) {
             videoPlayer.pause();
             playPauseBtn.textContent = '▶';
-            isPlaying = false; // 1. Zustand ändern
-            updateGifVisibility(isPlaying); 
+            isPlaying = false;
+            updateFurinaVisibility(isPlaying); 
             showVideo(isPlaying);
         } else {
-            // FIX: Verwende promise, um Playback-Fehler zu vermeiden
             const playPromise = videoPlayer.play();
-            
-
-
             if (playPromise !== undefined) {
                 playPromise.then(_ => {
-                    // Wiedergabe erfolgreich
                     playPauseBtn.textContent = '⏸';
-                    isPlaying = true; // 1. Zustand ändern
-                    updateGifVisibility(isPlaying); // 2. GIF aktualisieren
+                    isPlaying = true;
+                    updateFurinaVisibility(isPlaying);
                     showVideo(isPlaying);
                 }).catch(error => {
-                    // Autoplay blockiert oder anderer Fehler
-                    console.error("Autoplay wurde blockiert oder die Wiedergabe ist fehlgeschlagen:", error);
+                    console.error("Playback fehlgeschlagen:", error);
                     playPauseBtn.textContent = '▶';
                     isPlaying = false;
-                    updateGifVisibility(isPlaying);
+                    updateFurinaVisibility(isPlaying);
                     showVideo(isPlaying);
                 });
             }
         }
     };
 
-
-
-
     const playNextSong = () => {
         currentSongIndex = (currentSongIndex + 1) % playlist.length;
         loadSong(currentSongIndex);
-       
-        if (isPlaying) {
-            videoPlayer.play();
-        }
-        updateGifVisibility(isPlaying);
+        if (isPlaying) videoPlayer.play().catch(()=>{});
+        updateFurinaVisibility(isPlaying);
         showVideo(isPlaying);
     };
    
     const playPreviousSong = () => {
         currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
         loadSong(currentSongIndex);
-       
-        if (isPlaying) {
-            videoPlayer.play();
-        }
-        updateGifVisibility(isPlaying);
+        if (isPlaying) videoPlayer.play().catch(()=>{});
+        updateFurinaVisibility(isPlaying);
         showVideo(isPlaying);
     };
-
-
-
-
 
     if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
     if (nextBtn) nextBtn.addEventListener('click', playNextSong);
     if (prevBtn) prevBtn.addEventListener('click', playPreviousSong);
-
+    videoPlayer.addEventListener('ended', playNextSong);
 
     loadSong(currentSongIndex);
-    updateGifVisibility(false);
     showVideo(isPlaying);
 });
 
