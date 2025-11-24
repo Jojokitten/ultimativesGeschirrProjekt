@@ -456,24 +456,20 @@ position: absolute;
 opacity: 50%;
 top: 920px;
 left: 380px;}
-
-#phoneMainMenue {
-  display: none;
-}
+#mobileStyle {
+  display: none;}
 @media (max-width: 768px) {
-  #phoneMainMenue {
-    display: block;
-    position: fixed; 
-    bottom: 0px; 
-    right: 0px;
-    z-index: 250;
-    width: 100%; 
-    height: 100%;
-  }
+#mobileStyle {
+display: block;
+z-index:300;
+width:100%;
+height: 100%;
+position: fixed;
+left:-15px;
+top:0;}
+
+
 }
-
-
-
 
 
 
