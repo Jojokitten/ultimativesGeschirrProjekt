@@ -9,19 +9,19 @@
   body {
     background-color: rgb(230, 173, 204);
     overflow-x: hidden;
-    height: 1vh;      /* sichtbare Höhe auf 10vh begrenzen */
-    max-height: 1vh;  /* zusätzliche Absicherung */
+    height: 1000vh;      /* sichtbare Höhe auf 10vh begrenzen */
+    max-height: 1000vh;  /* zusätzliche Absicherung */
     overflow-y: auto;  /* vertikales Scrollen innerhalb dieser Höhe erlauben */
   }
   #barbaraProfile{
     position: fixed;  top:150px; right:-50px; height:400px; }
   #paimonProfile{
-    position: absolute; top:250px; left:0px; height:300px; }
+    position: absolute; top:130px; left:120px; height:300px; }
   #spirit{
     position:relative; top:40px; left:-10px;}
   div.profilbild-wrapper{ position:relative; left:120px; }
 option.titelprofile { background-color:pink; font-weight:bold; }
-input.profilename{
+#profilename{
   position:relative; top:60px; left: -120px;}
 .profil-container { text-align:center; color:rgb(137,1,44); font-family:sans-serif; }
 .profilbild-wrapper { position:relative; display:inline-block; margin:20px; }
@@ -57,7 +57,7 @@ button#saveProfil { position: relative; top: 46px; left: -20px; padding:10px 20p
         </div>
     </div>
     
-    <input class="profilename" type="text" id="profilname" placeholder="Profilname eingeben" autocomplete="off">
+    <input type="text" id="profilename" placeholder="zb Krotan Westarsch" autocomplete="off">
     <br>
     <select id="spirit">
         <option class="titelprofile" value="">Titel</option>
@@ -73,18 +73,26 @@ button#saveProfil { position: relative; top: 46px; left: -20px; padding:10px 20p
 <button class="delete" onclick="window.location.href='whyDidUDelete.html'">
   <svg viewBox="0 0 448 512" class="svgIcon"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
 </button>
+
+
+<div id="tableeeee">
+<h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Gespeicherte Profil-Daten</h1>
+<p class="text-sm text-gray-600 mb-4">Hier werden alle Einträge angezeigt.</p>
+
+<table id="resultTable" class="min-w-full border text-sm">
+  <thead>
+    <tr class="bg-gray-200">
+      <th class="border px-2 py-1">ID</th>
+      <th class="border px-2 py-1">Name</th>
+      <th class="border px-2 py-1">Zeit</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+</div>
+
+
+
 </body>
-
-<script>function limitScrollHeight() {
-    const scrollLimit = 200; // Definierte Grenze in Pixeln (z.B. 500px)
-
-    // Überprüft, ob die aktuelle vertikale Scroll-Position die Grenze überschreitet
-    if (window.scrollY > scrollLimit) {
-        // Setzt die Scroll-Position sofort auf die definierte Grenze zurück
-        window.scrollTo(0, scrollLimit);
-    }
-}
-
-// Fügt den Event-Listener hinzu, der die Funktion bei jeder Scroll-Bewegung aufruft
-window.addEventListener('scroll', limitScrollHeight)</script>
+<script src="script.js"></script>
 </html>

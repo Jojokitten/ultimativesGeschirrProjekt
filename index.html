@@ -7,6 +7,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link rel="stylesheet" href="styles.css"><style>
+  body{
+    overflow-y: hidden;
+  }
+  button.fistEnterPageBtn{
+width: 430px;
+height: 100px;
+position: absolute;
+opacity: 0.5;
+transform: translate(420px, 415px);}
+  #fistEnterPageee {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    z-index: 300;
+    top: 0; 
+  }
+#fistEnterPage {
+  width: 1280px;
+  height: auto;
+  top: -170px;
+  position: fixed;
+}
 .white,
 .border,
 .darkBorderBg,
@@ -172,45 +194,31 @@
   transform: translate(-50%, -50%) rotate(262deg);
 }
 #poda:hover > .glow::before {
-  transform: translate(-50%, -50%) rotate(240deg);
-}
+  transform: translate(-50%, -50%) rotate(240deg);}
 #poda:hover > .white::before {
-  transform: translate(-50%, -50%) rotate(263deg);
-}
+  transform: translate(-50%, -50%) rotate(263deg);}
 #poda:hover > .border::before {
-  transform: translate(-50%, -50%) rotate(250deg);
-}
-
+  transform: translate(-50%, -50%) rotate(250deg);}
 #poda:hover > .darkBorderBg::before {
-  transform: translate(-50%, -50%) rotate(-98deg);
-}
+  transform: translate(-50%, -50%) rotate(-98deg);}
 #poda:hover > .glow::before {
-  transform: translate(-50%, -50%) rotate(-120deg);
-}
+  transform: translate(-50%, -50%) rotate(-120deg);}
 #poda:hover > .white::before {
-  transform: translate(-50%, -50%) rotate(-97deg);
-}
+  transform: translate(-50%, -50%) rotate(-97deg);}
 #poda:hover > .border::before {
-  transform: translate(-50%, -50%) rotate(-110deg);
-}
-
+  transform: translate(-50%, -50%) rotate(-110deg);}
 #poda:focus-within > .darkBorderBg::before {
   transform: translate(-50%, -50%) rotate(442deg);
-  transition: all 4s;
-}
+  transition: all 4s;}
 #poda:focus-within > .glow::before {
   transform: translate(-50%, -50%) rotate(420deg);
-  transition: all 4s;
-}
+  transition: all 4s;}
 #poda:focus-within > .white::before {
   transform: translate(-50%, -50%) rotate(443deg);
-  transition: all 4s;
-}
+  transition: all 4s;}
 #poda:focus-within > .border::before {
   transform: translate(-50%, -50%) rotate(430deg);
-  transition: all 4s;
-}
-
+  transition: all 4s;}
 .glow {
   overflow: hidden;
   filter: blur(30px);
@@ -335,6 +343,11 @@
 </head>
 
 <body>
+<div id="fistEnterPageee">
+<img id="fistEnterPage" src="images/firstEnterPage.png">
+<button class="fistEnterPageBtn"></button>
+</div>
+
     <h1>Geschirspüler-Liste <3</h1>
   <ul>
     <li><a href="index.html">Geschirspüler-Liste</a></li>
@@ -447,6 +460,7 @@
 <button id="phoneLogin" onclick="window.location.href='profile.html'"></button>
 </div>
 
+<script src="script.js"></script>
 </body>
 
 <script>

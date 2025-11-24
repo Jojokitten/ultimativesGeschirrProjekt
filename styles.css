@@ -491,4 +491,36 @@ top:0;}
 
 
 
-   
+#resultTable {
+  width: 100%;             /* Tabelle füllt Container */
+  max-width: 1200px;       /* optional: maximale Breite */
+  table-layout: fixed;     /* feste Spaltenbreite -> text-overflow funktioniert */
+  border-collapse: collapse;
+}
+#resultTable th,
+#resultTable td {
+  padding: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;     /* verhindert Zeilenumbruch; zeigt "..." */
+}
+
+/* Für Zellen mit Debug-JSON erlauben wir Umbruch und begrenzen Breite */
+#resultTable td pre {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 320px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Wenn du möchtest, kannst du spezielle Spaltenbreiten per nth-child setzen */
+#resultTable td:nth-child(1), #resultTable th:nth-child(1) { width: 60px; }   /* ID */
+#resultTable td:nth-child(2), #resultTable th:nth-child(2) { width: 35%; }   /* Name */
+#resultTable td:nth-child(3), #resultTable th:nth-child(3) { width: 35%; }
+@media (max-width: 600px) {
+  #resultTable th, #resultTable td { white-space: normal; }
+}
