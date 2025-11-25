@@ -8,28 +8,77 @@
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link rel="stylesheet" href="styles.css"><style>
   body{
-    overflow-y: hidden;
-  }
+    overflow-y: hidden;}
+
   button.fistEnterPageBtn{
 width: 430px;
 height: 100px;
 position: absolute;
-opacity: 0.5;
-transform: translate(420px, 415px);}
-  #fistEnterPageee {
+opacity: 0.2;
+transform: translate(420px, 475px);}
+  button.fistEnterPageBtn:hover{
+  opacity:0;}
+    #fistEnterPageee {
     position: fixed;
     width: 100%;
-    height: auto;
-    z-index: 300;
-    top: 0; 
+    height: 110%;
+    z-index: 401;
+    top: -56px; 
+    left: 0px;
+    background-image: url('images/firstEnterPage.png');
+    background-size: 100%;
+background-repeat: no-repeat;
   }
-#fistEnterPage {
-  width: 1280px;
-  height: auto;
-  top: -170px;
-  position: fixed;
-}
-.white,
+
+    button.loginBtn{
+width: 436px; 
+height: 98px;
+position: absolute;
+opacity: 0.3;
+transform: translate(409px, 416px);}  
+button.loginBtn:hover{
+  opacity:0;
+} 
+  #login {
+    position: fixed;
+    width: 100%;
+    height: 110%;
+    z-index: 398;
+    top: 0px; 
+    left: 0px;
+    background-image: url('images/loginComputerScreenBG.png');
+    background-size: 100%;
+background-repeat: no-repeat;
+  }
+  #enterName{
+    z-index: 400;
+  position:absolute; 
+  top:200px; 
+  left: 470px; 
+  width:300px;
+   height:20px;}
+  #labelNameRed{
+    z-index: 400;
+    position: absolute;  
+    transform: translate(550px, 160px);
+    width: 150px;
+    height: 30px;
+  }
+  #labelNameGreen{
+    z-index: 400;
+    position: absolute;
+    transform: translate(550px, 160px);
+    width: 150px;
+    height: 30px;}
+    #minniImg{
+    z-index: 399;
+    position: absolute;
+    transform: translate(400px, 0px);
+    width: 450px;
+    height: auto;
+    border-radius: 20%;
+    border: 10px solid #24d71b} 
+   .white,
 .border,
 .darkBorderBg,
 .glow {
@@ -66,15 +115,10 @@ transform: translate(420px, 415px);}
 .input::placeholder {
   color: #c0b9c0;
 }
-
 .input:focus {
-  outline: none;
-}
-
+  outline: none;}
 #main:focus-within > #input-mask {
-  display: none;
-}
-
+  display: none;}
 #input-mask {
   pointer-events: none;
   width: 100px;
@@ -343,9 +387,47 @@ transform: translate(420px, 415px);}
 </head>
 
 <body>
+  
+<div id="customAlert" style="
+  position: fixed;
+  top: 29%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgb(243, 221, 242);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  display: none;
+  z-index: 2000;
+">
+  <p id="alertText"></p>
+  <button style="width:300px; color:rgb(112, 2, 79);" onclick="document.getElementById('customAlert').style.display='none'">OK</button>
+</div>
+<script>
+function myAlert(msg) {
+  document.getElementById("alertText").textContent = msg;
+  document.getElementById("customAlert").style.display = "block";
+}
+</script>
+
+
+
+
+
+  <div id="loooginn">
 <div id="fistEnterPageee">
-<img id="fistEnterPage" src="images/firstEnterPage.png">
 <button class="fistEnterPageBtn"></button>
+</div>
+
+<div id="login">
+<button class="loginBtn"></button>
+<img id="labelNameRed" src="images/nameNotInsertLogin.png">
+<img id="labelNameGreen" src="images/labelNameGreenLogin.png">
+<img id="minniImg" src="images/meAndCatLogin.png">
+ <input type="text" id="enterName" placeholder="zb Krotan Westarsch" autocomplete="off">
+    <br>
+
+</div>
 </div>
 
     <h1>Geschirspüler-Liste <3</h1>
