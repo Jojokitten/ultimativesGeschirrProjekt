@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <title>Character Menü</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+  body{
+      cursor: url('images/genshinCursor.cur'), auto;}
+    img.noCharacterImg {
+    width: 1300px; 
+    height: auto;
+    position: absolute;
+    top: -2px; 
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    z-index: 1;}
+   #returnBtn {
+    z-index:2;
+    position: absolute;
+    height: 40px;
+    width: 40px; 
+    left: 1224px;  
+    top: 29px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background-color: rgb(215, 210, 234) !important;}
+  #returnBtn:hover {
+  opacity: 0.2;
+  background-color: rgb(222, 218, 237) !important;}
+  </style>
+
+  </head>
+
+  <body>
+    <button id="returnBtn" onclick="window.location.href='characterMenue.html'"></button>
+
+    <div id="noCharDiv">
+    <img id="noAlhaithamFullImg" class="noCharacterImg" src="images/alhaithamNochNichtErhalten.png">
+
+    <img id="noYaeFullImg" class="noCharacterImg" src="images/yaeMikoNochNichtErhalten.png">
+    </div>
+  </body>
+  <script src="script.js"></script>
+  <html>

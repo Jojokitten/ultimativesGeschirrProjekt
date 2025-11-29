@@ -84,14 +84,7 @@ button {
   box-shadow:
     rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-  background: linear-gradient(
-    0deg,
-    rgb(189, 6, 110) 0%,
-    rgb(248, 112, 196) 47%,
-
-    rgb(197, 120, 146) 100%
-  );
-  transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
 
 }
 button:active {
@@ -249,7 +242,7 @@ img.ProfilePaimon{
     z-index: -1;}
 button.addStricherlLena{
   position: absolute;
-  top: 500px;
+  top: 550px;
   left: 300px;
   display: block;
   margin: 20px auto;
@@ -266,7 +259,7 @@ button.addStricherlLena{
 button.addStricherlJohanna{
   position: absolute;
   height: 50px;
-  top: 500px;
+  top: 550px;
   left: 680px;
   display: block;
   margin: 20px auto;
@@ -286,7 +279,7 @@ p.stricherlCountLena{
   border-radius: 20px;
   border-style: double;
   top: 90px;
-  left: -510px;
+  left: 350px;
   font-size: 90px;
 background: linear-gradient(to bottom, 
         #eb71ae 50%, 
@@ -299,7 +292,7 @@ background: linear-gradient(to bottom,
 p.stricherlCountJohanna{
     position: relative;
   top: 90px;
-  left: -300px;
+  left: 560px;
   font-size: 90px;background: linear-gradient(to bottom, 
         #d10a6d 50%, 
         #f8f2f5 
@@ -314,41 +307,36 @@ p.stricherlCountJohanna{
   border-style: double;
   display: inline-block;}
 button.lena {
-  margin-left: 30%;
+   background: linear-gradient(
+    0deg,
+    rgb(189, 6, 110) 0%,
+    rgb(248, 112, 196) 47%,
+
+    rgb(197, 120, 146) 100%
+  );
+  width: 300px;
+  margin-left: 22%;
   position: relative;
-  top: -120px;}
+  top: 70px;}
 button.jojo {
-  margin-left: 20%;
+   background: linear-gradient(
+    0deg,
+    rgb(189, 6, 110) 0%,
+    rgb(248, 112, 196) 47%,
+
+    rgb(197, 120, 146) 100%
+  );
+  width: 300px;
+  margin-left: 6%;
   position: relative;
-    top: -120px;}
-p.stricherlTextLena{
-  position: static;
-  font-size: 30px;
-  font-weight: bold;
-  color: rgb(137, 1, 44);
-
-    position: absolute;
-    top: 300px; /* Position von oben */
-    left: 35%; /* Position von links (z.B. 50% der Seite) */
-    transform: translateX(-50%); /* Zum Zentrieren, falls nötig */
-    z-index: 10;}
-div.stricherlTextJohanna{
-  font-size: 30px;
-  font-weight: bold;
-  color: rgb(137, 1, 44);
-
-  position: absolute;
-    top: 300px; /* Position von oben */
-    left: 63%; /* Position von links (z.B. 50% der Seite) */
-    transform: translateX(-50%); /* Zum Zentrieren, falls nötig */
-    z-index: 10;}
+    top: 70px;}
 button.addStricherlLena:hover, button.addStricherlJohanna:hover {
   background-color: rgb(189, 6, 110);
   color: white;}
 button.minusStricherlLena{
-  position: absolute;
-  top: 600px;
-  left: 300px;
+  position: relative;
+  top: 76px;
+  left: -202px;
   display: block;
   margin: 20px auto;
   font-size: 20px;
@@ -362,10 +350,9 @@ button.minusStricherlLena{
 width: 260px;
   padding: 6px 10px;}
 button.minusStricherlJohanna{
-
   position: absolute;
   height: 50px;
-  top: 600px;
+  top: 620px;
   left: 680px;
   display: block;
   margin: 20px auto;
@@ -381,8 +368,8 @@ button.minusStricherlLena:hover, button.minusStricherlJohanna:hover {
   background-color: rgb(189, 6, 110);
   color: white;}
 button.startGeschirrspühlsession{
-  position: relative;
-  top: -498px;
+  position: absolute;
+  margin-top: -55.1%;
   height: 40px;
   left: 750px;
   width: 500px;
@@ -458,33 +445,72 @@ position: absolute;
 opacity: 50%;
 top: 920px;
 left: 380px;}
-#mobileStyle {
-  display: none;}
-@media (max-width: 768px) {
-#mobileStyle {
-display: block;
-z-index:250;
-width:100%;
-height: 105%;
-position: fixed;
-left:-20px;
-top:0;}
-#phoneLogin{
-  z-index:260;
-  position: fixed;
-  width: 2700px;
-  height: 500px;
-  top: 384px;
-  left: 17px; 
-  z-index: 400;
-  opacity:0%;
-  border: none;
-  cursor: pointer;}}
 
-
-
-
-
+ #fistEnterPageBtn{
+ z-index:5000;
+background-color:#3e3a07;
+width: 430px;
+height: 100px;
+position: absolute;
+opacity: 0.1;
+transform: translate(420px, 419px);}
+  #fistEnterPageBtn:hover{
+  opacity:0;}
+    #fistEnterPage {
+    position: fixed;
+    width: 100%;
+    height: 110%;
+    z-index: 401;
+    top: -56px; 
+    left: 0px;
+    background-image: url('images/firstEnterPage.png');
+    background-size: 100%;
+background-repeat: no-repeat;}
+button.loginBtn{
+width: 436px; 
+height: 98px;
+position: absolute;
+opacity: 0.3;
+transform: translate(409px, 416px);}  
+button.loginBtn:hover{
+  opacity:0;} 
+  #login {
+    position: fixed;
+    width: 100%;
+    height: 110%;
+    z-index: 398;
+    top: 0px; 
+    left: 0px;
+    background-image: url('images/loginComputerScreenBG.png');
+    background-size: 100%;
+background-repeat: no-repeat;}
+  #enterName{
+    z-index: 400;
+  position:absolute; 
+  top:200px; 
+  left: 470px; 
+  width:300px;
+   height:20px;}
+  #labelNameRed{
+    z-index: 400;
+    position: absolute;  
+    transform: translate(550px, 160px);
+    width: 150px;
+    height: 30px;}
+  #labelNameGreen{
+    z-index: 400;
+    position: absolute;
+    transform: translate(550px, 160px);
+    width: 150px;
+    height: 30px;}
+  #minniImg{
+    z-index: 399;
+    position: absolute;
+    transform: translate(400px, 0px);
+    width: 450px;
+    height: auto;
+    border-radius: 20%;
+    border: 10px solid #24d71b} 
 
 
 
@@ -503,9 +529,7 @@ top:0;}
   border: 1px solid rgba(0,0,0,0.08);
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;     /* verhindert Zeilenumbruch; zeigt "..." */
-}
-
+  white-space: nowrap;     /* verhindert Zeilenumbruch; zeigt "..." */}
 /* Für Zellen mit Debug-JSON erlauben wir Umbruch und begrenzen Breite */
 #resultTable td pre {
   white-space: normal;
@@ -516,11 +540,92 @@ top:0;}
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 /* Wenn du möchtest, kannst du spezielle Spaltenbreiten per nth-child setzen */
 #resultTable td:nth-child(1), #resultTable th:nth-child(1) { width: 60px; }   /* ID */
 #resultTable td:nth-child(2), #resultTable th:nth-child(2) { width: 35%; }   /* Name */
 #resultTable td:nth-child(3), #resultTable th:nth-child(3) { width: 35%; }
-@media (max-width: 600px) {
-  #resultTable th, #resultTable td { white-space: normal; }
+#fistEnterPageee{
+width:1100px;
+height:1000px;
 }
+
+
+@media (max-width: 768px) {
+  #fistEnterPageee{
+width:1100px;
+height:1000px;
+}
+#fistEnterPage {
+    position: fixed;
+    z-index: 401;
+    left:-2%; 
+    background-image: url('images/phoneLogin.png');
+    background-size: 30%;      
+background-repeat: no-repeat;}
+   #fistEnterPageBtn{
+background-color:#6c3f04;
+z-index: 402;
+width: 310px;
+height: 70px;
+position: absolute;
+opacity: 0.1;
+top: 6%; 
+left: -99%;}
+
+
+ #fistEnterPageBtn:hover{
+  opacity:0;
+cursor: pointer;}
+
+ button.loginBtn{
+width: 436px; 
+height: 98px;
+position: absolute;
+opacity: 0.3;
+transform: translate(409px, 416px);}  
+button.loginBtn:hover{
+  opacity:0;
+} 
+  #login {
+    position: fixed;
+    width: 100%;
+    height: 110%;
+    z-index: 398;
+    top: 0px; 
+    left: 0px;
+    background-image: url('images/loginComputerScreenBG.png');
+    background-size: 100%;
+background-repeat: no-repeat;
+  }
+  #enterName{
+    z-index: 400;
+  position:absolute; 
+  top:200px; 
+  left: 470px; 
+  width:300px;
+   height:20px;}
+  #labelNameRed{
+    z-index: 400;
+    position: absolute;  
+    transform: translate(550px, 160px);
+    width: 150px;
+    height: 30px;
+  }
+  #labelNameGreen{
+    z-index: 400;
+    position: absolute;
+    transform: translate(550px, 160px);
+    width: 150px;
+    height: 30px;}
+  #minniImg{
+    z-index: 399;
+    position: absolute;
+    transform: translate(400px, 0px);
+    width: 450px;
+    height: auto;
+    border-radius: 20%;
+    border: 10px solid #24d71b} 
+
+#resultTable th, #resultTable td { white-space: normal; }
+  }
+  

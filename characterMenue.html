@@ -42,7 +42,6 @@ opacity: 0.7}
   margin: -20px;
   padding: -20px;
   height: 50px;}
-
 .allCharacterssss {
   margin-top: 120px;
   display: grid;
@@ -51,6 +50,8 @@ opacity: 0.7}
   padding: 40px;
   justify-items: center;}
 .characterMenuImg {
+  margin-left: 50%;
+  margin-right: 50%;
   width: 165px;
   height: auto;
   border-radius: 17px;
@@ -59,6 +60,19 @@ opacity: 0.7}
 .characterMenuImg:hover {
   transform: scale(1.06);
   box-shadow: 0 8px 18px rgba(255, 145, 206, 0.6);}
+  #weaponMenuActivationBtn{
+    opacity:0.1;
+    left: 52vw; 
+    top:0vw;
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    z-index: 220;
+  background: linear-gradient(rgb(19, 2, 54), rgb(96, 112, 194), rgb(9, 1, 17));}
+  #weaponMenuActivationBtn:hover{
+    opacity: 0.3;
+    color: white;
+  }
 </style>
 
 <body>
@@ -68,24 +82,32 @@ opacity: 0.7}
     <li><a href="genshin.html">Banners</a></li>
     <li class="profileItem"><a href="profile.html"><img class="profileIcon" src="images/paimonIcon.png"></a></li>
   </ul>
+  <div id="weaponMenuDiv">
 
-  <div class="allCharacterssss">
-    //Alhaitham
-    <a href="showNichtErhalten.html"><img src="images/characterAlhaitham.png" class="1alhathamImg characterMenuImg"></a>
-    <a href="showAlhatham.html"><img src="images/characterAlhaitham.png" class="2alhathamImg characterMenuImg"></a>
-    //YAE
-    <a href="showNichtErhalten.html"><img src="images/characterYaeMiko.png" class="1yaeMikoImg characterMenuImg"></a>
-    <a href="showYae.html"><img src="images/characterYaeMiko.png" class="2yaeMikoImg characterMenuImg"></a>
-    //childe
-    <a href="showNichtErhalten.html"><img src="images/tartagliaBanner.png" class="1yaeMikoImg characterMenuImg"></a>
-    <a href="showYae.html"><img src="images/tartagliaC0.png" class="2yaeMikoImg characterMenuImg"></a>
-    <a href="showYae.html"><img src="images/tartagliarC1.jpgxx" class="2yaeMikoImg characterMenuImg"></a>
+  </div>
+  <button id="weaponMenuActivationBtn" onclick="weaponMenuChangeHTML()"></button>
+  <button id="characterMenuActivationBtn" onclick="characterMenuChangeHTML()"></button>
+  <div id="characterMenuDiv">
+  <div id="allCharacterssss">
+    <!--alhaitham-->
+    <a href="showNichtErhalten.html?From=Alhaitham"><img src="images/characterAlhaitham.png" id="noAlhathamMenuImg" class="characterMenuImg"></a>
+    <a href="alhatham.html"><img src="images/characterAlhaitham.png" id="alhaithamMenuImg" class="characterMenuImg"></a>
+    <!--yae-->
+    <a href="showNichtErhalten.html?From=Yae"><img src="images/characterYaeMiko.png" id="noYaeMikoImg" class="characterMenuImg"></a>
+    <a href="yae.html"><img src="images/characterYaeMiko.png" id="yaeMenuImg" class="characterMenuImg"></a>
+    <!--childe-->
+    <a href="showNichtErhalten.html"><img src="images/noTartagliaMenuImg.png" class="noTartagliaImg characterMenuImg"></a>
+    <a href="showTartaglia.html"><img src="images/tartagliaC0.png" class="tartagliaImg characterMenuImg"></a>
+    <a href="showTartaglia.html"><img src="images/tartagliarC1.jpg" class="c1tartagliaImg characterMenuImg"></a>
     <!--spaaaaß-->
     <a href="profile.html"><img src="images/meAndCatForCharacterMenu.jpg" class="characterMenuImg"></a>
 
   </div>
-
+<div id="tartaglia10PullLuck">
   <h2 style="position:relative; margin: 400px; color: red; font-size: 50px">Tipp! Manifestiere folgendes:</h2>
   <img src="images/manifestation.png" height="600px" width="auto" position="relative">
+</div>
+  </div>
+<script src="script.js"></script>
 </body>
 </html>

@@ -6,82 +6,11 @@
 <title>Geschirrspüler-Projekt</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-<link rel="stylesheet" href="styles.css"><style>
+<link rel="stylesheet" href="styles.css">
+<style>
   body{
     overflow-y: hidden;}
-
-  button.fistEnterPageBtn{
-width: 430px;
-height: 100px;
-position: absolute;
-opacity: 0.2;
-transform: translate(420px, 475px);}
-  button.fistEnterPageBtn:hover{
-  opacity:0;}
-    #fistEnterPageee {
-    position: fixed;
-    width: 100%;
-    height: 110%;
-    z-index: 401;
-    top: -56px; 
-    left: 0px;
-    background-image: url('images/firstEnterPage.png');
-    background-size: 100%;
-background-repeat: no-repeat;
-  }
-
-    button.loginBtn{
-width: 436px; 
-height: 98px;
-position: absolute;
-opacity: 0.3;
-transform: translate(409px, 416px);}  
-button.loginBtn:hover{
-  opacity:0;
-} 
-  #login {
-    position: fixed;
-    width: 100%;
-    height: 110%;
-    z-index: 398;
-    top: 0px; 
-    left: 0px;
-    background-image: url('images/loginComputerScreenBG.png');
-    background-size: 100%;
-background-repeat: no-repeat;
-  }
-  #enterName{
-    z-index: 400;
-  position:absolute; 
-  top:200px; 
-  left: 470px; 
-  width:300px;
-   height:20px;}
-  #labelNameRed{
-    z-index: 400;
-    position: absolute;  
-    transform: translate(550px, 160px);
-    width: 150px;
-    height: 30px;
-  }
-  #labelNameGreen{
-    z-index: 400;
-    position: absolute;
-    transform: translate(550px, 160px);
-    width: 150px;
-    height: 30px;}
-    #minniImg{
-    z-index: 399;
-    position: absolute;
-    transform: translate(400px, 0px);
-    width: 450px;
-    height: auto;
-    border-radius: 20%;
-    border: 10px solid #24d71b} 
-   .white,
-.border,
-.darkBorderBg,
-.glow {
+  .white,.border,.darkBorderBg, .glow {
   max-height: 70px;
   max-width: 314px;
   height: 100%;
@@ -295,7 +224,6 @@ background-repeat: no-repeat;
   animation: rotate 4s 0.3s linear infinite;
   transition: all 2s;
 }
-
 @keyframes rotate {
   100% {
     transform: translate(-50%, -50%) rotate(450deg);
@@ -321,7 +249,6 @@ background-repeat: no-repeat;
     opacity: 1;
   }
 }
-
 #filter-icon {
   position: absolute;
   top: 8px;
@@ -351,7 +278,6 @@ background-repeat: no-repeat;
   right: 7px;
   border-radius: 10px;
 }
-
 .filterBorder::before {
   content: "";
 
@@ -387,8 +313,8 @@ background-repeat: no-repeat;
 </head>
 
 <body>
-  
-<div id="customAlert" style="
+<div id="loooginn">
+  <div id="customAlert" style="
   position: fixed;
   top: 29%;
   left: 50%;
@@ -403,22 +329,10 @@ background-repeat: no-repeat;
   <p id="alertText"></p>
   <button style="width:300px; color:rgb(112, 2, 79);" onclick="document.getElementById('customAlert').style.display='none'">OK</button>
 </div>
-<script>
-function myAlert(msg) {
-  document.getElementById("alertText").textContent = msg;
-  document.getElementById("customAlert").style.display = "block";
-}
-</script>
-
-
-
-
-
-  <div id="loooginn">
 <div id="fistEnterPageee">
-<button class="fistEnterPageBtn"></button>
+  <div id="fistEnterPage"></div>
+<button id="fistEnterPageBtn"></button>
 </div>
-
 <div id="login">
 <button class="loginBtn"></button>
 <img id="labelNameRed" src="images/nameNotInsertLogin.png">
@@ -430,6 +344,7 @@ function myAlert(msg) {
 </div>
 </div>
 
+<div id="style-of-page">
     <h1>Geschirspüler-Liste <3</h1>
   <ul>
     <li><a href="index.html">Geschirspüler-Liste</a></li>
@@ -443,7 +358,7 @@ function myAlert(msg) {
   <span class="button-content"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0H24V24H0z"></path>
       <path fill="currentColor" d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"></path>
     </svg>
-    Lena
+    Lenas Stricherl
   </span> 
 </button>
 <button class="jojo">
@@ -451,15 +366,14 @@ function myAlert(msg) {
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path fill="none" d="M0 0H24V24H0z"></path>
       <path fill="currentColor" d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228z"></path></svg>
-        Johanna</span> 
+        Johannas Stricherl</span> 
 </button>
 <button class="delete" onclick="window.location.href='whyDidUDelete.html'">
   <svg viewBox="0 0 448 512" class="svgIcon"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
 </button>
-<p class="stricherlTextLena">Stricherl Lena:</p>
-<div class="stricherlTextJohanna">
-<p>Stricherl Johanna:</p>
 </div>
+
+<div id="stricherl!!!">
 <p class="stricherlCountLena">277</p>
 <p class="stricherlCountJohanna">294</p>
 <button class="addStricherlLena">Add <b>1</b> Stricherl to Lena</button>
@@ -468,6 +382,8 @@ function myAlert(msg) {
 <button class="minusStricherlLena">- <b>1</b> Stricherl</button>
 
 <button onclick="window.location.href='GeschirrspühlSession.html'" class="startGeschirrspühlsession"> ▶&nbsp;&nbsp;&nbsp;&nbsp;Start Geschirrspühl-Session</button>
+</div>
+
 <div id="poda">
   <div class="glow"></div>
   <div class="darkBorderBg"></div>
@@ -536,15 +452,14 @@ function myAlert(msg) {
   </div>
 </div>
 
-<!--phoneStyle-->
-<div id="mobileStyleeeee">
-<img id="mobileStyle" src="images/phoneLogin.png" alt="phoneLogin">
-<button id="phoneLogin" onclick="window.location.href='profile.html'"></button>
-</div>
-
 <script src="script.js"></script>
-</body>
-
+<!--alert-->
+<script>
+function myAlert(msg) {
+  document.getElementById("alertText").textContent = msg;
+  document.getElementById("customAlert").style.display = "block";
+}
+</script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     // 1. DOM-Elemente einmalig abrufen
@@ -609,4 +524,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 </script>
+</body>
 </html>
